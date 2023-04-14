@@ -2,6 +2,10 @@ import './App.css';
 import React, { useEffect, useState } from "react";
 
 const URL = "http://localhost:8080";
+const authString = "admin@tiketguru.com:admin";
+const encoder = new TextEncoder();
+const data = encoder.encode(authString);
+const authEncoded = btoa(String.fromCharCode.apply(null, data));
 
 
 function App() {
@@ -13,6 +17,7 @@ function App() {
   const [total, setTotal] = useState(0);
   const [transaction, setTransaction] = useState([]);
 
+
   useEffect(() => {
     fetchEvents();
   },
@@ -21,7 +26,7 @@ function App() {
   const fetchEvents = async () => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
     };
 
     try {
@@ -51,7 +56,7 @@ function App() {
   const fetchEventTicketTypes = async (eventId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
@@ -68,7 +73,7 @@ function App() {
   const handleTransaction = async () => {
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
       body: JSON.stringify({ total: total + ticketPrice, appUser: null }),
     };
 
@@ -94,7 +99,7 @@ function App() {
 
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
       body: JSON.stringify({
         usedDate: null,
         eventTicketType: { eventTypeId: ticket.eventTypeId },
@@ -114,7 +119,7 @@ function App() {
   const showTransaction = async (transactionId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
@@ -159,7 +164,7 @@ function App() {
   const confirmTransaction = async (id) => {
     const reqOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
       body: true,
     };
 
@@ -177,7 +182,7 @@ function App() {
   const cancelTransaction = async (id) => {
     const reqOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
