@@ -2,10 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from "react";
 
 const URL = "http://localhost:8080";
-const authString = "admin@tiketguru.com:admin";
-const encoder = new TextEncoder();
-const data = encoder.encode(authString);
-const authEncoded = btoa(String.fromCharCode.apply(null, data));
+const authEncoded = "YWRtaW5AdGlrZXRndXJ1LmNvbTphZG1pbg==";
 
 
 function App() {
@@ -74,7 +71,7 @@ function App() {
     const reqOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
-      body: JSON.stringify({ total: total + ticketPrice, appUser: null }),
+      body: JSON.stringify({ appUser: {userId: 1}}),
     };
 
     try {
