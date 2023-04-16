@@ -13,7 +13,7 @@ function App() {
   const [ticketPrice, setTicketPrice] = useState(0);
   const [total, setTotal] = useState(0);
   const [transaction, setTransaction] = useState([]);
-
+  const [trId, setTrId] = useState(0);
 
   useEffect(() => {
     fetchEvents();
@@ -23,7 +23,7 @@ function App() {
   const fetchEvents = async () => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+    headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
     };
 
     try {
@@ -53,7 +53,7 @@ function App() {
   const fetchEventTicketTypes = async (eventId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
     };
 
     try {
@@ -70,7 +70,7 @@ function App() {
   const handleTransaction = async () => {
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
       body: JSON.stringify({ appUser: {userId: 1}}),
     };
 
@@ -78,14 +78,15 @@ function App() {
       const response = await fetch(`${URL}/transactions`, reqOptions);
       const json = await response.json();
       const transactionId = await json.transactionId;
+      console.log(transactionId);
+      setTrId(transactionId);
 
       tickets.forEach((ticket) => {
         for (let i = 0; i < ticket.amount; i++) {
           postTickets(transactionId, ticket);
         }
       });
-
-      showTransaction(transactionId);
+      //showTransaction(transactionId);
     } catch (error) {
       setError(error.message);
     }
@@ -96,7 +97,7 @@ function App() {
 
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
       body: JSON.stringify({
         usedDate: null,
         eventTicketType: { eventTypeId: ticket.eventTypeId },
@@ -124,6 +125,7 @@ function App() {
         `${URL}/transactions/${transactionId}/tickets`, reqOptions);
       const json = await response.json();
       console.log(json);
+      console.log("näytä liput")
 
       setTransaction(json);
       setError("");
@@ -161,7 +163,7 @@ function App() {
   const confirmTransaction = async (id) => {
     const reqOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
       body: true,
     };
 
@@ -179,7 +181,7 @@ function App() {
   const cancelTransaction = async (id) => {
     const reqOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
     };
 
     try {
@@ -192,6 +194,7 @@ function App() {
       setError(error.message);
     }
   };
+
 
   return (
     <div className="eventContainer">
@@ -278,6 +281,7 @@ function App() {
                 <p>Nimi {t.eventTicketType.ticketType.typeName}</p>
                 <p>Hinta {formatPrice(t.eventTicketType.price)}</p>
                 <p>Tapahtuma {t.eventTicketType.event.eventName}</p>
+                <p>{t.qrCode}</p>
               </div>
             );
           })}
@@ -301,7 +305,13 @@ function App() {
           </div>
         </div>
       )}
-
+    {  (
+      <div> 
+        <button onClick={()=> showTransaction(trId)}>
+          listaa liput
+        </button>
+      </div>
+      )}
       <div className="debug">
         {error.length > 0 ? <p>{error}</p> : <p><i>All good.</i></p>}
       </div>
