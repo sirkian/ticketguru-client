@@ -186,7 +186,7 @@ function App() {
 
     try {
       const res = await fetch(`${URL}/transactions/${id}`, reqOptions);
-      if (res.status === 200) {
+      if (res.status === 204) {
         alert("Myyntitapahtuma poistettu");
       }
       setTransaction([]);
@@ -281,7 +281,7 @@ function App() {
                 <p>Nimi {t.eventTicketType.ticketType.typeName}</p>
                 <p>Hinta {formatPrice(t.eventTicketType.price)}</p>
                 <p>Tapahtuma {t.eventTicketType.event.eventName}</p>
-                <p>{t.qrCode}</p>
+                <img src={`data:image/png;base64,${t.qrCode}`} alt='qrCode'></img>
               </div>
             );
           })}
