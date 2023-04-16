@@ -15,15 +15,17 @@ function App() {
   const [transaction, setTransaction] = useState([]);
   const [trId, setTrId] = useState(0);
 
+
   useEffect(() => {
     fetchEvents();
   },
     []);
 
+
   const fetchEvents = async () => {
     const reqOptions = {
       method: "GET",
-    headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
@@ -36,6 +38,37 @@ function App() {
       setError(error.message);
     }
   };
+
+  // Tapahtuman hakua varten...
+  const [name, setName] = useState('');
+
+  const change = (e) => {
+    setName(e.target.value);
+  }
+
+  const fetchEventsByName = async (name) => {
+    const reqOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+    };
+
+    try {
+      const response = await fetch(`${URL}/events/q?name=${name}`, reqOptions);
+      const json = await response.json();
+
+      if (response.status === 404) {
+        setError("Tapahtumia ei löydy!");
+        setEvents(null);
+      }
+      
+      setEvents(json);
+      setError("");
+
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  // ...tähän asti
 
   const formatTime = (dateTime) => {
     const year = dateTime.substr(0, 4);
@@ -53,7 +86,7 @@ function App() {
   const fetchEventTicketTypes = async (eventId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
@@ -64,14 +97,14 @@ function App() {
       setError("");
     } catch (error) {
       setError(error.message);
-    } 
-  }; 
+    }
+  };
 
   const handleTransaction = async () => {
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
-      body: JSON.stringify({ appUser: {userId: 1}}),
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      body: JSON.stringify({ appUser: { userId: 1 } }),
     };
 
     try {
@@ -97,7 +130,7 @@ function App() {
 
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
       body: JSON.stringify({
         usedDate: null,
         eventTicketType: { eventTypeId: ticket.eventTypeId },
@@ -163,7 +196,7 @@ function App() {
   const confirmTransaction = async (id) => {
     const reqOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
       body: true,
     };
 
@@ -181,7 +214,7 @@ function App() {
   const cancelTransaction = async (id) => {
     const reqOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded},
+      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
     };
 
     try {
@@ -200,7 +233,15 @@ function App() {
     <div className="eventContainer">
       <div className="innerContainer">
         <h3>TicketGuru Ticket sales</h3>
-        <p><b>Hae tapahtuma</b></p>
+
+        {/*Tapahtuman haku, jos tuloksia ei löydy heittää koko sivun errorin :D Saa keksiä korjauksia!*/}
+        <form>
+          <label htmlFor='event'><b>Hae tapahtuma nimellä: </b></label><br></br>
+          <input type='text' name='event' value={name} onChange={(e) => change(e)} />
+          <input type='button' value='Hae' onClick={() => fetchEventsByName(name)} />
+        </form>
+
+        <p><b>Tapahtumat:</b></p>
         {events.map((ev) => {
           return (
             <div
@@ -208,112 +249,112 @@ function App() {
               key={ev.eventId}
               onClick={(e) => fetchEventTicketTypes(ev.eventId)}
             >
-              {formatTime(ev.startTime)} <b>{ev.eventName}</b>
+              {formatTime(ev.startTime)} <b>{ev.eventName}</b>, {ev.venue.venueName}
             </div>
           );
         })}
-      </div>
 
-      <p><b>Valitse lippu</b></p>
-      {eventtickets.length > 0 && (
-        <div className="innerContainer">
-          {eventtickets.map((evt) => {
-            return (
-              <div key={evt.eventTypeId}>
-                <div className="tickets">
-                  <span>{evt.ticketType.typeName}</span>{" "}
-                  <span>{formatPrice(evt.price)}</span>
-                  <button className="addBtn" onClick={(e) => handleCart(evt)}>
-                    Lisää
-                  </button>
+        <p><b>Valitse lippu</b></p>
+        {eventtickets.length > 0 && (
+          <div className="innerContainer">
+            {eventtickets.map((evt) => {
+              return (
+                <div key={evt.eventTypeId}>
+                  <div className="tickets">
+                    <span>{evt.ticketType.typeName}</span>{" "}
+                    <span>{formatPrice(evt.price)}</span>
+                    <button className="addBtn" onClick={(e) => handleCart(evt)}>
+                      Lisää
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      {tickets.length > 0 ? (
-        <div className="cartContainer">
-          {tickets.map((ticket, index) => {
-            return (
-              <div className="cartTicket" key={index}>
-                <div className="cartTicketInner">
-                  <span>
-                    {ticket.ticketType.typeName} {ticket.amount} kpl <br />
-                    <span style={{ fontSize: 12 }}>
-                      {ticket.event.eventName}
+              );
+            })}
+          </div>
+        )}
+        {tickets.length > 0 ? (
+          <div className="cartContainer">
+            {tickets.map((ticket, index) => {
+              return (
+                <div className="cartTicket" key={index}>
+                  <div className="cartTicketInner">
+                    <span>
+                      {ticket.ticketType.typeName} {ticket.amount} kpl <br />
+                      <span style={{ fontSize: 12 }}>
+                        {ticket.event.eventName}
+                      </span>
                     </span>
-                  </span>
-                  <input
-                    className="ticketAmount"
-                    type="number"
-                    onChange={(e) => handleAmountChange(e, ticket)}
-                  />
+                    <input
+                      className="ticketAmount"
+                      type="number"
+                      onChange={(e) => handleAmountChange(e, ticket)}
+                    />
+                  </div>
+
+                  <p>Hinta: {formatPrice(ticket.price * ticket.amount)}</p>
                 </div>
+              );
+            })}
+            <div className="sell">
+              <h3>Summa {formatPrice(total + ticketPrice)}</h3>
+              <button className="sellBtn" onClick={handleTransaction}>
+                Myy
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p>Ei valittuja lippuja</p>
+        )}
 
-                <p>Hinta: {formatPrice(ticket.price * ticket.amount)}</p>
-              </div>
-            );
-          })}
-          <div className="sell">
-            <h3>Summa {formatPrice(total + ticketPrice)}</h3>
-            <button className="sellBtn" onClick={handleTransaction}>
-              Myy
+        {transaction.length > 0 && (
+          <div className="transaction">
+            <h3>Myyntitapahtuma #{transaction[0].transaction.transactionId}</h3>
+            <p>{formatTime(transaction[0].transaction.transactionDate)}</p>
+            <p style={{ fontWeight: "bold" }}>
+              {transaction[0].transaction.total} €
+            </p>
+            {transaction.map((t) => {
+              return (
+                <div className="transactionTicket" key={t.ticketId}>
+                  <p>ID {t.ticketId}</p>
+                  <p>Koodi {t.verificationCode}</p>
+                  <p>Nimi {t.eventTicketType.ticketType.typeName}</p>
+                  <p>Hinta {formatPrice(t.eventTicketType.price)}</p>
+                  <p>Tapahtuma {t.eventTicketType.event.eventName}</p>
+                  <img src={`data:image/png;base64,${t.qrCode}`} alt='qrCode'></img>
+                </div>
+              );
+            })}
+            <div className="transactionBtns">
+              <button
+                className="transactionBtn"
+                onClick={(e) =>
+                  confirmTransaction(transaction[0].transaction.transactionId)
+                }
+              >
+                OK
+              </button>
+              <button
+                className="transactionBtn"
+                onClick={(e) =>
+                  cancelTransaction(transaction[0].transaction.transactionId)
+                }
+              >
+                PERUUTA
+              </button>
+            </div>
+          </div>
+        )}
+        {(
+          <div>
+            <button onClick={() => showTransaction(trId)}>
+              listaa liput
             </button>
           </div>
+        )}
+        <div className="debug">
+          {error.length > 0 ? <p>{error}</p> : <p><i>All good.</i></p>}
         </div>
-      ) : (
-        <p>Ei valittuja lippuja</p>
-      )}
-
-      {transaction.length > 0 && (
-        <div className="transaction">
-          <h3>Myyntitapahtuma #{transaction[0].transaction.transactionId}</h3>
-          <p>{formatTime(transaction[0].transaction.transactionDate)}</p>
-          <p style={{ fontWeight: "bold" }}>
-            {transaction[0].transaction.total} €
-          </p>
-          {transaction.map((t) => {
-            return (
-              <div className="transactionTicket" key={t.ticketId}>
-                <p>ID {t.ticketId}</p>
-                <p>Koodi {t.verificationCode}</p>
-                <p>Nimi {t.eventTicketType.ticketType.typeName}</p>
-                <p>Hinta {formatPrice(t.eventTicketType.price)}</p>
-                <p>Tapahtuma {t.eventTicketType.event.eventName}</p>
-                <img src={`data:image/png;base64,${t.qrCode}`} alt='qrCode'></img>
-              </div>
-            );
-          })}
-          <div className="transactionBtns">
-            <button
-              className="transactionBtn"
-              onClick={(e) =>
-                confirmTransaction(transaction[0].transaction.transactionId)
-              }
-            >
-              OK
-            </button>
-            <button
-              className="transactionBtn"
-              onClick={(e) =>
-                cancelTransaction(transaction[0].transaction.transactionId)
-              }
-            >
-              PERUUTA
-            </button>
-          </div>
-        </div>
-      )}
-    {  (
-      <div> 
-        <button onClick={()=> showTransaction(trId)}>
-          listaa liput
-        </button>
-      </div>
-      )}
-      <div className="debug">
-        {error.length > 0 ? <p>{error}</p> : <p><i>All good.</i></p>}
       </div>
     </div>
   );
