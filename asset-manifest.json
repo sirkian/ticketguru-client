@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ticketguru/static/css/main.073c9b0a.css",
-    "main.js": "/ticketguru/static/js/main.f0bfd5fb.js",
-    "static/js/787.bd576910.chunk.js": "/ticketguru/static/js/787.bd576910.chunk.js",
-    "index.html": "/ticketguru/index.html",
-    "main.073c9b0a.css.map": "/ticketguru/static/css/main.073c9b0a.css.map",
-    "main.f0bfd5fb.js.map": "/ticketguru/static/js/main.f0bfd5fb.js.map",
-    "787.bd576910.chunk.js.map": "/ticketguru/static/js/787.bd576910.chunk.js.map"
+    "main.css": "/ticketguru-client/static/css/main.073c9b0a.css",
+    "main.js": "/ticketguru-client/static/js/main.d2009669.js",
+    "static/js/787.bd576910.chunk.js": "/ticketguru-client/static/js/787.bd576910.chunk.js",
+    "index.html": "/ticketguru-client/index.html",
+    "main.073c9b0a.css.map": "/ticketguru-client/static/css/main.073c9b0a.css.map",
+    "main.d2009669.js.map": "/ticketguru-client/static/js/main.d2009669.js.map",
+    "787.bd576910.chunk.js.map": "/ticketguru-client/static/js/787.bd576910.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.f0bfd5fb.js"
+    "static/js/main.d2009669.js"
   ]
 }
