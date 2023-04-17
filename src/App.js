@@ -1,9 +1,8 @@
-import './App.css';
+import "./App.css";
 import React, { useEffect, useState } from "react";
 
 const URL = "http://localhost:8080";
 const authEncoded = "YWRtaW5AdGlrZXRndXJ1LmNvbTphZG1pbg==";
-
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -15,17 +14,17 @@ function App() {
   const [transaction, setTransaction] = useState([]);
   const [trId, setTrId] = useState(0);
 
-
   useEffect(() => {
     fetchEvents();
-  },
-    []);
-
+  }, []);
 
   const fetchEvents = async () => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
     };
 
     try {
@@ -40,16 +39,19 @@ function App() {
   };
 
   // Tapahtuman hakua varten...
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   const change = (e) => {
     setName(e.target.value);
-  }
+  };
 
   const fetchEventsByName = async (name) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
     };
 
     try {
@@ -60,10 +62,9 @@ function App() {
         setError("Tapahtumia ei löydy!");
         setEvents(null);
       }
-      
+
       setEvents(json);
       setError("");
-
     } catch (error) {
       setError(error.message);
     }
@@ -86,11 +87,17 @@ function App() {
   const fetchEventTicketTypes = async (eventId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
     };
 
     try {
-      const response = await fetch(`${URL}/events/${eventId}/eventtickettypes`, reqOptions);
+      const response = await fetch(
+        `${URL}/events/${eventId}/eventtickettypes`,
+        reqOptions
+      );
       const json = await response.json();
 
       setEventtickets(json);
@@ -103,7 +110,10 @@ function App() {
   const handleTransaction = async () => {
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
       body: JSON.stringify({ appUser: { userId: 1 } }),
     };
 
@@ -130,7 +140,10 @@ function App() {
 
     const reqOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
       body: JSON.stringify({
         usedDate: null,
         eventTicketType: { eventTypeId: ticket.eventTypeId },
@@ -150,15 +163,20 @@ function App() {
   const showTransaction = async (transactionId) => {
     const reqOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
     };
 
     try {
       const response = await fetch(
-        `${URL}/transactions/${transactionId}/tickets`, reqOptions);
+        `${URL}/transactions/${transactionId}/tickets`,
+        reqOptions
+      );
       const json = await response.json();
       console.log(json);
-      console.log("näytä liput")
+      console.log("näytä liput");
 
       setTransaction(json);
       setError("");
@@ -196,7 +214,10 @@ function App() {
   const confirmTransaction = async (id) => {
     const reqOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
       body: true,
     };
 
@@ -214,7 +235,10 @@ function App() {
   const cancelTransaction = async (id) => {
     const reqOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json", Authorization: "Basic " + authEncoded },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
     };
 
     try {
@@ -228,7 +252,6 @@ function App() {
     }
   };
 
-
   return (
     <div className="eventContainer">
       <div className="innerContainer">
@@ -236,25 +259,48 @@ function App() {
 
         {/*Tapahtuman haku, jos tuloksia ei löydy heittää koko sivun errorin :D Saa keksiä korjauksia!*/}
         <form>
-          <label htmlFor='event'><b>Hae tapahtuma nimellä: </b></label><br></br>
-          <input type='text' name='event' value={name} onChange={(e) => change(e)} />
-          <input type='button' value='Hae' onClick={() => fetchEventsByName(name)} />
+          <label htmlFor="event">
+            <b>Hae tapahtuma nimellä: </b>
+          </label>
+          <br></br>
+          <input
+            type="text"
+            name="event"
+            value={name}
+            onChange={(e) => change(e)}
+          />
+          <input
+            type="button"
+            value="Hae"
+            id="search-btn"
+            onClick={() => fetchEventsByName(name)}
+          />
         </form>
 
-        <p><b>Tapahtumat:</b></p>
-        {events.map((ev) => {
-          return (
-            <div
-              className="event"
-              key={ev.eventId}
-              onClick={(e) => fetchEventTicketTypes(ev.eventId)}
-            >
-              {formatTime(ev.startTime)} <b>{ev.eventName}</b>, {ev.venue.venueName}
-            </div>
-          );
-        })}
-
-        <p><b>Valitse lippu</b></p>
+        <p>
+          <b>Tapahtumat:</b>
+        </p>
+        {events.length > 0 ? (
+          <div>
+            {events.map((ev) => {
+              return (
+                <div
+                  className="event"
+                  key={ev.eventId}
+                  onClick={(e) => fetchEventTicketTypes(ev.eventId)}
+                >
+                  {formatTime(ev.startTime)} <b>{ev.eventName}</b>,{" "}
+                  {ev.venue.venueName}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>Tapahtumia ei löytynyt</div>
+        )}
+        <p>
+          <b>Valitse lippu</b>
+        </p>
         {eventtickets.length > 0 && (
           <div className="innerContainer">
             {eventtickets.map((evt) => {
@@ -321,13 +367,17 @@ function App() {
                   <p>Nimi {t.eventTicketType.ticketType.typeName}</p>
                   <p>Hinta {formatPrice(t.eventTicketType.price)}</p>
                   <p>Tapahtuma {t.eventTicketType.event.eventName}</p>
-                  <img src={`data:image/png;base64,${t.qrCode}`} alt='qrCode'></img>
+                  <img
+                    src={`data:image/png;base64,${t.qrCode}`}
+                    alt="qrCode"
+                  ></img>
                 </div>
               );
             })}
             <div className="transactionBtns">
               <button
                 className="transactionBtn"
+                id="confirmTransaction"
                 onClick={(e) =>
                   confirmTransaction(transaction[0].transaction.transactionId)
                 }
@@ -336,6 +386,7 @@ function App() {
               </button>
               <button
                 className="transactionBtn"
+                id="cancelTransaction"
                 onClick={(e) =>
                   cancelTransaction(transaction[0].transaction.transactionId)
                 }
@@ -345,15 +396,24 @@ function App() {
             </div>
           </div>
         )}
-        {(
+        {
           <div>
-            <button onClick={() => showTransaction(trId)}>
+            <button
+              className="transactionTickets"
+              onClick={() => showTransaction(trId)}
+            >
               listaa liput
             </button>
           </div>
-        )}
+        }
         <div className="debug">
-          {error.length > 0 ? <p>{error}</p> : <p><i>All good.</i></p>}
+          {error.length > 0 ? (
+            <p>{error}</p>
+          ) : (
+            <p>
+              <i>All good.</i>
+            </p>
+          )}
         </div>
       </div>
     </div>
