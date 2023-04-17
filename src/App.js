@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 
-const URL = "http://localhost:8080";
+const URL = "https://qo7-qo7fof.azurewebsites.net";
 const authEncoded = "YWRtaW5AdGlrZXRndXJ1LmNvbTphZG1pbg==";
 
 function App() {
