@@ -14,6 +14,7 @@ import {
   authEncoded,
 } from "../utils/constants";
 import "../styles/cart.css";
+import Transaction from "./Transaction";
 
 function mapStateToProps(state) {
   return {
@@ -36,7 +37,7 @@ export function Cart(props) {
   const cartTickets = useSelector((state) => state.tickets.cartTickets);
   const totalPrice = useSelector((state) => state.tickets.totalPrice);
   const [transaction, setTransaction] = useState([]);
-  const [trasactionIsVisible, setTrasactionIsVisible] = useState(false);
+  const [transactionIsVisible, setTransactionIsVisible] = useState(false);
   const [cartIsVisible, setCartIsVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -128,9 +129,14 @@ export function Cart(props) {
     // ja että myyntitapahtuma ei ole tyhjä
     if (transaction.length > 0) {
       setIsLoading(false);
-      setTrasactionIsVisible(true);
+      setTransactionIsVisible(true);
     }
   }, [transaction]);
+
+  const handleCancelTransaction = () => {
+    setTransaction([]);
+    setTransactionIsVisible(false);
+  };
 
   return (
     <>
@@ -180,30 +186,11 @@ export function Cart(props) {
           </button>
         </div>
       )}
-      {trasactionIsVisible && (
-        <div className="cartContainer">
-          <h2>Myyntitapahtuma #{transaction[0].transaction.transactionId}</h2>
-          <span>{formatTime(transaction[0].transaction.transactionDate)}</span>
-          <ul>
-            {transaction.map((ticket) => (
-              <li key={ticket.ticketId}>
-                <div className="ticket">
-                  <div className="ticketInfo">
-                    <span className="eventInfo">
-                      {ticket.eventTicketType.event.eventName}{" "}
-                      {formatTime(ticket.eventTicketType.event.startTime)}
-                    </span>
-                    <span>
-                      <b>{ticket.eventTicketType.ticketType.typeName}</b> -{" "}
-                      {formatPrice(ticket.eventTicketType.price)}
-                    </span>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <span>{formatPrice(transaction[0].transaction.total)}</span>
-        </div>
+      {transactionIsVisible && (
+        <Transaction
+          transaction={transaction}
+          onCancel={handleCancelTransaction}
+        />
       )}
       {isLoading && (
         <div className="cartContainer">
