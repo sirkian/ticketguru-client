@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { formatPrice, formatTime } from "../utils/utils";
 import {
@@ -36,6 +36,9 @@ export function Cart(props) {
   const cartTickets = useSelector((state) => state.tickets.cartTickets);
   const totalPrice = useSelector((state) => state.tickets.totalPrice);
   const [transaction, setTransaction] = useState([]);
+  const [trasactionIsVisible, setTrasactionIsVisible] = useState(false);
+  const [cartIsVisible, setCartIsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddToCart = (ticket) => {
@@ -68,8 +71,13 @@ export function Cart(props) {
           postTickets(transactionId, ticket);
         }
       });
-      showTransaction(transactionId);
-      dispatch(clearCart());
+      setCartIsVisible(false);
+      setIsLoading(true);
+      // Laitetaan vielä 1,5sek timeout, että varmasti kaikki liput ehtii mukaan
+      setTimeout(() => {
+        fetchTransaction(transactionId);
+        dispatch(clearCart());
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +103,7 @@ export function Cart(props) {
     }
   };
 
-  const showTransaction = async (transactionId) => {
+  const fetchTransaction = async (transactionId) => {
     const reqOptions = {
       method: "GET",
       headers: {
@@ -103,7 +111,6 @@ export function Cart(props) {
         Authorization: "Basic " + authEncoded,
       },
     };
-
     try {
       const response = await fetch(
         `${URL}/transactions/${transactionId}/tickets`,
@@ -116,9 +123,18 @@ export function Cart(props) {
     }
   };
 
+  useEffect(() => {
+    // Pyritään varmistamaan, että myyntitapahtuma tulee varmasti näkyviin
+    // ja että myyntitapahtuma ei ole tyhjä
+    if (transaction.length > 0) {
+      setIsLoading(false);
+      setTrasactionIsVisible(true);
+    }
+  }, [transaction]);
+
   return (
     <>
-      {cartTickets.length > 0 && (
+      {cartTickets.length > 0 && cartIsVisible && (
         <div className="cartContainer">
           <h2>Valitut liput</h2>
           <ul>
@@ -164,7 +180,7 @@ export function Cart(props) {
           </button>
         </div>
       )}
-      {transaction.length > 0 && (
+      {trasactionIsVisible && (
         <div className="cartContainer">
           <h2>Myyntitapahtuma #{transaction[0].transaction.transactionId}</h2>
           <span>{formatTime(transaction[0].transaction.transactionDate)}</span>
@@ -187,6 +203,11 @@ export function Cart(props) {
             ))}
           </ul>
           <span>{formatPrice(transaction[0].transaction.total)}</span>
+        </div>
+      )}
+      {isLoading && (
+        <div className="cartContainer">
+          <p>Pieni hetki...</p>
         </div>
       )}
     </>
