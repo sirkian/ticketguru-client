@@ -3,12 +3,34 @@ import { formatPrice, formatTime } from "../utils/utils";
 import "../styles/transaction.css";
 import { URL, authEncoded } from "../utils/constants";
 
-function Transaction({ transaction, onCancel }) {
+function Transaction({ transaction, onClear }) {
   const [transactionProp, setTransactionProp] = useState(transaction);
 
   const handleConfirm = async (id) => {
     //TODO
     // Tästä pitäis ohjata lippujen tulostukseen
+    const reqOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
+      body: true,
+    };
+    try {
+      const response = await fetch(`${URL}/transactions/${id}`, reqOptions);
+      if (response.status === 200) {
+        // ------------------- //
+        // Tästä ehkä vaikka routerilla omaan näkymään, jossa vain liput
+        alert("Myyntitapahtuma OK");
+        // Katotaan josko onClear voi olla tässä aiheuttamatta ongelmia
+        // Ei tulis nii hirvee callback hell
+        onClear();
+        // ------------------- //
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancel = async (id) => {
@@ -24,7 +46,7 @@ function Transaction({ transaction, onCancel }) {
       if (response.status === 204) {
         alert("Myyntitapahtuma ID " + id + " poistettu");
         // Callback-funktio, joka tyhjentää transactions-listan Cart.js-komponentissa
-        onCancel();
+        onClear();
       }
     } catch (error) {
       console.log(error);

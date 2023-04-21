@@ -133,9 +133,10 @@ export function Cart(props) {
     }
   }, [transaction]);
 
-  const handleCancelTransaction = () => {
+  const handleClearTransaction = () => {
     setTransaction([]);
     setTransactionIsVisible(false);
+    setCartIsVisible(true);
   };
 
   return (
@@ -189,7 +190,7 @@ export function Cart(props) {
       {transactionIsVisible && (
         <Transaction
           transaction={transaction}
-          onCancel={handleCancelTransaction}
+          onClear={handleClearTransaction}
         />
       )}
       {isLoading && (
