@@ -1,5 +1,4 @@
 import React from "react";
-
 import Events from "./components/Events";
 import CheckTickets from "./components/CheckTickets";
 
@@ -17,7 +16,6 @@ export default function App() {
       </li>
     
       <Routes>
-      
         <Route path="/events" element={<Events/>}></Route>
         <Route path="/tickets" element={<CheckTickets/>}></Route>
       </Routes>

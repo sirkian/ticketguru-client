@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { URL, authEncoded } from "../utils/constants";
 import { formatPrice, formatTime } from "../utils/utils";
+import "../styles/checkTickets.css";
 
 function CheckTickets() {
     const [vCode, setVCode] = useState("");
@@ -27,6 +28,9 @@ function CheckTickets() {
                     setTicket(json);
                     setError("");
                 }
+            } else {
+                setError("Lippua ei löydy!")
+                setTicket(null);
             }
         } catch (error) {
             setError(error.message);
@@ -56,28 +60,35 @@ function CheckTickets() {
         }
     };
 
+    const handleClearTicket = () => {
+        setTicket(null);
+    }
+
     return (
         <div>
              <h3>TicketGuru: Lipun tarkastus</h3>
                 <p>Lipun tarkastuskoodi:</p>
-            <input type="text" placeholder="Tarkastuskoodi" onChange={(e) => setVCode(e.target.value)}/>
-            <button onClick={handleFindTicket}>Tarkista</button>
+            <input maxLength={8} className="codeInput" type="text" placeholder="Tarkastuskoodi" onChange={(e) => setVCode(e.target.value)}/><br/>
+            <button className="useBtn" onClick={handleFindTicket}>Tarkista</button>
 
             {ticket !== null && (
                 <div className="ticket">
-                    <p>ID: {ticket.ticketId}</p>
-                    <p>QR-KOODI: {ticket.verificationCode}</p>
-                    <p>TAPAHTUMA: {ticket.eventTicketType.event.eventName}</p>
-                    <p>LIPPUTYYPPI: {ticket.eventTicketType.ticketType.typeName}</p>
-                    <p>HINTA: {formatPrice(ticket.eventTicketType.price)} €</p>
+                    <p><b>ID:</b> {ticket.ticketId}</p>
+                    <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`}/>
+                    <p><b>TAPAHTUMA:</b> {ticket.eventTicketType.event.eventName}, {formatTime(ticket.eventTicketType.event.startTime)}</p>
+                    <p><b>LIPPUTYYPPI:</b> {ticket.eventTicketType.ticketType.typeName}</p>
+                    <p><b>HINTA:</b> {formatPrice(ticket.eventTicketType.price)}</p>
                     <br/>
-                    <button onClick={handleUseTicket}>Käytä lippu</button>
+                    <button className="useBtn" onClick={handleUseTicket}>Käytä lippu</button>
+                    <button className="cancelBtn" onClick={handleClearTicket}>Peruuta</button>
 
                 </div>
             )}
             {error.length > 0 && <p>{error}</p>}
         </div>
     );
+    
+    
 }
 
 export default CheckTickets;

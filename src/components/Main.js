@@ -4,6 +4,7 @@ import { addToCart, calculateTotalPrice } from "../store/CartReducer";
 import { formatPrice, formatTime } from "../utils/utils";
 import { URL, authEncoded } from "../utils/constants";
 
+
 function Main() {
   const [events, setEvents] = useState([]);
   const [eventtickets, setEventtickets] = useState([]);
@@ -255,7 +256,6 @@ function Main() {
       <div className="innerContainer">
         <h3>TicketGuru Ticket sales</h3>
 
-        {/*Tapahtuman haku, jos tuloksia ei löydy heittää koko sivun errorin :D Saa keksiä korjauksia!*/}
         <form>
           <label htmlFor="event">
             <b>Hae tapahtuma nimellä: </b>
@@ -415,6 +415,7 @@ function Main() {
             <p>
               <i>All good.</i>
             </p>
+            
           )}
         </div>
       </div>
