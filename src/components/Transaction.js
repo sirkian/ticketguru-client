@@ -27,9 +27,7 @@ function Transaction({ transaction, onClear }) {
         //alert("Myyntitapahtuma OK");
         // Katotaan josko onClear voi olla tässä aiheuttamatta ongelmia
         // Ei tulis nii hirvee callback hell
-        console.log(transactionProp);
-        navigate("/print", {state:transactionProp});
-
+        navigate("/print", { state: transactionProp });
         onClear();
         // ------------------- //
       }
