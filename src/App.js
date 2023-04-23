@@ -3,6 +3,7 @@ import Events from "./components/Events";
 import CheckTickets from "./components/CheckTickets";
 
 import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import PrintTickets from "./components/PrintTickets";
 
 export default function App() {
   // Provider React Reduxia varten - älä poista
@@ -18,6 +19,7 @@ export default function App() {
       <Routes>
         <Route path="/events" element={<Events/>}></Route>
         <Route path="/tickets" element={<CheckTickets/>}></Route>
+        <Route path="/print" element={<PrintTickets/>}></Route>
       </Routes>
       </BrowserRouter>
   

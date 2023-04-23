@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { formatPrice, formatTime } from "../utils/utils";
 import "../styles/transaction.css";
 import { URL, authEncoded } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 function Transaction({ transaction, onClear }) {
   const [transactionProp, setTransactionProp] = useState(transaction);
+  const navigate = useNavigate();
 
   const handleConfirm = async (id) => {
     //TODO
@@ -22,9 +24,12 @@ function Transaction({ transaction, onClear }) {
       if (response.status === 200) {
         // ------------------- //
         // Tästä ehkä vaikka routerilla omaan näkymään, jossa vain liput
-        alert("Myyntitapahtuma OK");
+        //alert("Myyntitapahtuma OK");
         // Katotaan josko onClear voi olla tässä aiheuttamatta ongelmia
         // Ei tulis nii hirvee callback hell
+        console.log(transactionProp);
+        navigate("/print", {state:transactionProp});
+
         onClear();
         // ------------------- //
       }
