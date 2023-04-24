@@ -39,14 +39,10 @@ function Main() {
     }
   };
 
-  // Tapahtuman hakua varten...
-  const [name, setName] = useState("");
+  // Tapahtuman haku nimellä
+  const [eventName, setEventName] = useState("");
 
-  const change = (e) => {
-    setName(e.target.value);
-  };
-
-  const fetchEventsByName = async (name) => {
+  const fetchEventsByName = async (eventName) => {
     const reqOptions = {
       method: "GET",
       headers: {
@@ -56,7 +52,7 @@ function Main() {
     };
 
     try {
-      const response = await fetch(`${URL}/events/q?name=${name}`, reqOptions);
+      const response = await fetch(`${URL}/events/q?name=${eventName}`, reqOptions);
       const json = await response.json();
 
       if (response.status === 404) {
@@ -70,7 +66,51 @@ function Main() {
       setError(error.message);
     }
   };
-  // ...tähän asti
+ 
+  // Tapahtumapaikan tapahtumien haku, ei vielä toimi. Löytää tapahtumapaikan, mutta ei osaa asettaa venueID:tä jsoniin.
+  const [venueName, setVenueName] = useState([]);
+  
+  const fetchVenuesEventsByName = async (venueName) => {
+    const reqOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + authEncoded,
+      },
+    };
+  
+    try {
+      const response = await fetch(`${URL}/venues/q?name=${venueName}`, reqOptions);
+      const json = await response.json();
+  
+      console.log("json:", json);
+  
+      if (response.status === 404) {
+        setError("Tapahtumapaikkoja ei löydy!");
+        setEvents(null);
+      } else {
+        const venueId = await json[0].venueId;
+  
+        console.log("venueId:", venueId);
+  
+        const response2 = await fetch(`${URL}/venues/${venueId}/events`, reqOptions);
+        const json2 = await response2.json();
+  
+        console.log("json2:", json2);
+  
+        if (response2.status === 404) {
+          setError("Tapahtumapaikalla ei löydy tapahtumia!");
+          setEvents(null);
+        } else {
+          setEvents(json2);
+          setError("");
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  
 
   const fetchEventTicketTypes = async (eventId) => {
     const reqOptions = {
@@ -264,14 +304,33 @@ function Main() {
           <input
             type="text"
             name="event"
-            value={name}
-            onChange={(e) => change(e)}
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
           />
           <input
             type="button"
             value="Hae"
             id="search-btn"
-            onClick={() => fetchEventsByName(name)}
+            onClick={() => fetchEventsByName(eventName)}
+          />
+        </form>
+
+        <form>
+          <label htmlFor="venue">
+            <b>Hae tapahtumapaikan tapahtumat: </b>
+          </label>
+          <br></br>
+          <input
+            type="text"
+            name="venue"
+            value={venueName}
+            onChange={(e) => setVenueName(e.target.value)}
+          />
+          <input
+            type="button"
+            value="Hae"
+            id="search-btn"
+            onClick={() => fetchVenuesEventsByName(venueName)}
           />
         </form>
 
