@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ticketguru-client/static/css/main.939d5a66.css",
-    "main.js": "/ticketguru-client/static/js/main.e7365963.js",
+    "main.js": "/ticketguru-client/static/js/main.ba026438.js",
     "static/js/787.bd576910.chunk.js": "/ticketguru-client/static/js/787.bd576910.chunk.js",
     "index.html": "/ticketguru-client/index.html",
     "main.939d5a66.css.map": "/ticketguru-client/static/css/main.939d5a66.css.map",
-    "main.e7365963.js.map": "/ticketguru-client/static/js/main.e7365963.js.map",
+    "main.ba026438.js.map": "/ticketguru-client/static/js/main.ba026438.js.map",
     "787.bd576910.chunk.js.map": "/ticketguru-client/static/js/787.bd576910.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.939d5a66.css",
-    "static/js/main.e7365963.js"
+    "static/js/main.ba026438.js"
   ]
 }
