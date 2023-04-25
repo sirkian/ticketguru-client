@@ -1,0 +1,50 @@
+@media (min-width: 770px) {
+    .printContainer {
+        width: 50em;
+    }
+    .ticketPrint {
+        width: 90%;
+        border: 3px dotted black;
+        border-radius: 3px;
+        margin-bottom: 2em;
+        padding: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .ticketPrint > p {
+        margin-left: -2.5em;
+        font-size: 0.9em;
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 770px) {
+    .ticketPrint {
+        width: 90%;
+        border: 3px dotted black;
+        border-radius: 3px;
+        margin-bottom: 2em;
+        padding: 1em;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .ticketPrint > p {
+        font-size: 0.7em;
+    }
+}
+
+
+.ticketInfo > p:first-child {
+    font-size: 2em;
+}
+
+.ticketInfo > p {
+    font-size: 1.2em;
+}
+
+.ticketPrint > img {
+    border: 1px solid grey;
+    border-radius: 5px;
+}

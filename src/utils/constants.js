@@ -1,6 +1,6 @@
 // URLlit ja AUTH
-export const URL = "https://qo7-qo7fof.azurewebsites.net";
-//export const URL = "http://localhost:8080";
+//export const URL = "https://qo7-qo7fof.azurewebsites.net";
+export const URL = "http://localhost:8080";
 export const authEncoded = "YWRtaW5AdGlrZXRndXJ1LmNvbTphZG1pbg==";
 
 // Reducer vakiot

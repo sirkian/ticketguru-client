@@ -1,8 +1,9 @@
 import React from "react";
 import Events from "./components/Events";
 import CheckTickets from "./components/CheckTickets";
+import "./styles/app.css";
 
-import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PrintTickets from "./components/PrintTickets";
 
 export default function App() {
@@ -15,14 +16,13 @@ export default function App() {
       <li>
         <Link to="/tickets">Tsekkaa lippu</Link>
       </li>
-    
+
       <Routes>
-        <Route path="/events" element={<Events/>}></Route>
-        <Route path="/tickets" element={<CheckTickets/>}></Route>
-        <Route path="/print" element={<PrintTickets/>}></Route>
+        <Route path="/events" element={<Events />}></Route>
+        <Route path="/tickets" element={<CheckTickets />}></Route>
+        <Route path="/print" element={<PrintTickets />}></Route>
       </Routes>
-      </BrowserRouter>
-  
+    </BrowserRouter>
   );
 }
 

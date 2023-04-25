@@ -1,0 +1,60 @@
+.events {
+    max-width: 40em;
+    margin: 5em 0 3em 0;
+}
+
+.event {
+    padding: 1em;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event:hover {
+    cursor: pointer;
+    background-color: lightgrey;
+}
+
+.eventtickets {
+    width: 100%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 0em;
+    margin-bottom: 2em;
+}
+
+.eventtickets > h2 {
+    margin-top: 0;
+    font-weight: lighter;
+    text-transform: uppercase;
+}
+
+.ticketsLeft {
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.ticketsContainer {
+    width: 60%;
+}
+
+.tickets {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    background-color: lightgray;
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+.addBtn {
+    margin-left: 1em;
+    padding: 0.2em 0.5em;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
