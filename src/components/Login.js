@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 import React, { useState, useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+=======
+import React, { useState } from "react";
+
+import "./Login.css";
+>>>>>>> d5b8e1b3933b9c4d5fb1402adab55d5fe9079d71
 
 const Login = () => {
   let navigate = useNavigate();
@@ -67,6 +73,7 @@ const Login = () => {
               />
             </div>
 
+<<<<<<< HEAD
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <Field name="password" type="password" className="form-control" />
@@ -96,6 +103,10 @@ const Login = () => {
           </div>
         </div>
       )}
+=======
+    <div className="Login">
+        
+>>>>>>> d5b8e1b3933b9c4d5fb1402adab55d5fe9079d71
     </div>
   );
 };

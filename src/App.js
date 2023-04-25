@@ -1,8 +1,9 @@
 import React from "react";
 import Events from "./components/Events";
 import CheckTickets from "./components/CheckTickets";
+import "./styles/app.css";
 
-import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PrintTickets from "./components/PrintTickets";
 import Login from "./components/Login";
 import { Provider } from 'react-redux';
@@ -19,8 +20,9 @@ export default function App() {
       <li>
         <Link to="/tickets">Tsekkaa lippu</Link>
       </li>
-    
+
       <Routes>
+<<<<<<< HEAD
         <Route path="/events" element={<Events/>}></Route>
         <Route path="/tickets" element={<CheckTickets/>}></Route>
         <Route path="/print" element={<PrintTickets/>}></Route>
@@ -29,6 +31,13 @@ export default function App() {
       </BrowserRouter>
       </Provider>
   
+=======
+        <Route path="/events" element={<Events />}></Route>
+        <Route path="/tickets" element={<CheckTickets />}></Route>
+        <Route path="/print" element={<PrintTickets />}></Route>
+      </Routes>
+    </BrowserRouter>
+>>>>>>> d5b8e1b3933b9c4d5fb1402adab55d5fe9079d71
   );
 }
 

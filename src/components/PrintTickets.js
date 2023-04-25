@@ -1,4 +1,6 @@
 import { useLocation } from "react-router-dom";
+import { formatPrice, formatTime } from "../utils/utils";
+import "../styles/print.css";
 
 // Ei tarvinnukkaan propsina lähettää
 const PrintTickets = () => {
@@ -9,14 +11,23 @@ const PrintTickets = () => {
   console.log(location.state);
 
   return (
-    <>
+    <div className="printContainer">
+      <h2>Liput</h2>
       {location.state.map((ticket) => (
-        <div key={ticket.ticketId}>
-          <p>ID {ticket.ticketId}</p>
-          <p>KOODI {ticket.verificationCode}</p>
+        <div className="ticketPrint" key={ticket.ticketId}>
+          <p>{ticket.verificationCode}</p>
+          <div className="ticketInfo">
+            <p>{ticket.eventTicketType.event.eventName}</p>
+            <p>
+              {ticket.eventTicketType.ticketType.typeName}{" "}
+              {formatPrice(ticket.eventTicketType.price)}
+            </p>
+          </div>
+
+          <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`} />
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

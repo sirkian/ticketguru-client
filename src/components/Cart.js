@@ -40,6 +40,7 @@ export function Cart(props) {
   const [transactionIsVisible, setTransactionIsVisible] = useState(false);
   const [cartIsVisible, setCartIsVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const handleAddToCart = (ticket) => {
@@ -98,7 +99,12 @@ export function Cart(props) {
       }),
     };
     try {
-      await fetch(`${URL}/tickets`, reqOptions);
+      const response = await fetch(`${URL}/tickets`, reqOptions);
+      if (response.status === 400) {
+        setError("Tapahtuma on loppuunmyyty!");
+        setIsLoading(false);
+        fetchTransaction(transactionId);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -196,6 +202,13 @@ export function Cart(props) {
       {isLoading && (
         <div className="cartContainer">
           <p>Pieni hetki...</p>
+        </div>
+      )}
+      {error.length > 0 && (
+        <div className="cartContainer">
+          <p>
+            {error} <span onClick={() => setError("")}>X</span>
+          </p>
         </div>
       )}
     </>
