@@ -4,6 +4,7 @@ import { addToCart, calculateTotalPrice } from "../store/CartReducer";
 import { formatPrice, formatTime } from "../utils/utils";
 import { URL, authEncoded } from "../utils/constants";
 import "../styles/main.css";
+import Venues from "./Venues";
 
 function Main() {
   const [events, setEvents] = useState([]);
