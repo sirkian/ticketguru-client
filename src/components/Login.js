@@ -1,58 +1,103 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import "./Login.css";
+import React, { useState, useEffect  } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-export default function Login() {
+const Login = () => {
+  let navigate = useNavigate();
 
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function validateForm() {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
 
-    return email.length > 0 && password.length > 0;
+  const dispatch = useDispatch();
 
-  }
+  useEffect(() => {
+    dispatch();
+  }, [dispatch]);
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("This field is required!"),
+    password: Yup.string().required("This field is required!"),
+  });
+
+  const handleLogin = (formValue) => {
+    const { email, password } = formValue;
+    setLoading(true);
+
+    dispatch(({ email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/ticketguru-client");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  if (isLoggedIn) {
+    return <Navigate to="/ticketguru-client" />;
   }
 
   return (
+    <div className="col-md-12 login-form">
+      <div className="card card-container">
+     
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleLogin}
+        >
+          <Form>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <Field name="email" type="text" className="form-control" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
 
-    <div className="Login">
-        <Route exact path="/login"></Route>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <Field name="password" type="password" className="form-control" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
 
-      <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Login</span>
+              </button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
 
-            autoFocus
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-
-          />
-
-        </Form.Group>
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-
-          Login
-
-        </Button>
-      </Form>
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default Login;
