@@ -67,7 +67,7 @@ function Main() {
     }
   };
  
-  // Tapahtumapaikan tapahtumien haku, ei vielä toimi. Löytää tapahtumapaikan, mutta ei osaa asettaa venueID:tä jsoniin.
+  // Tapahtumapaikan tapahtumien haku
   const [venueName, setVenueName] = useState([]);
   
   const fetchVenuesEventsByName = async (venueName) => {
