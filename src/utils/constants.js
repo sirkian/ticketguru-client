@@ -8,3 +8,5 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const CALCULATE_TOTAL_PRICE = "CALCULATE_TOTAL_PRICE";
 export const CLEAR_CART = "CLEAR_CART";
+
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

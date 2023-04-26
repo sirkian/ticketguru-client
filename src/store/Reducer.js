@@ -4,6 +4,7 @@ import {
   REMOVE_FROM_CART,
   CALCULATE_TOTAL_PRICE,
   CLEAR_CART,
+  LOGIN_SUCCESS,
 } from "../utils/constants";
 
 const initialState = {
@@ -112,9 +113,35 @@ function cartReducer(state = initialState, action) {
   }
 }
 
+const initialUserState = {
+  user: null,
+  isLoggedIn: false,
+};
+
+export const loginSuccess = (user) => {
+  return {
+    type: LOGIN_SUCCESS,
+    payload: user,
+  };
+};
+
+function userReducer(state = initialUserState, action) {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        isLoggedIn: true,
+      };
+    default:
+      return state;
+  }
+}
+
 const store = configureStore({
   reducer: {
     tickets: cartReducer,
+    user: userReducer,
   },
 });
 

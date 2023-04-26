@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToCart, calculateTotalPrice } from "../store/CartReducer";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { addToCart, calculateTotalPrice } from "../store/Reducer";
 import { formatPrice, formatTime } from "../utils/utils";
 import { URL, authEncoded } from "../utils/constants";
 import "../styles/main.css";
 import Venues from "./Venues";
+import { User } from "./User";
 
-function Main() {
+export default function Main(props) {
   const [events, setEvents] = useState([]);
   const [eventtickets, setEventtickets] = useState([]);
   const [error, setError] = useState("Ladataan tapahtumia");
@@ -171,6 +172,7 @@ function Main() {
 
   return (
     <div className="eventContainer">
+      <User />
       <div className="innerContainer">
         <h3>TicketGuru Ticket sales</h3>
 
@@ -272,5 +274,3 @@ function Main() {
     </div>
   );
 }
-
-export default Main;

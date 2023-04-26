@@ -6,7 +6,7 @@ import {
   calculateTotalPrice,
   clearCart,
   removeFromCart,
-} from "../store/CartReducer";
+} from "../store/Reducer";
 import {
   ADD_TO_CART,
   CALCULATE_TOTAL_PRICE,

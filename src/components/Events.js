@@ -1,21 +1,18 @@
 import { Provider } from "react-redux";
-import store from "../store/CartReducer";
+import store from "../store/Reducer";
 import Main from "./Main";
 import Cart from "./Cart";
 
-
 const Events = () => {
-
-    return (
-        <>
-        <h1>Ticketgurun tapahtumat</h1>
-            <Provider store={store}>
-                <Main />
-                <Cart />
-            </Provider>
-        </>
-
-    )
-}
+  return (
+    <>
+      <h1>Ticketgurun tapahtumat</h1>
+      <Provider store={store}>
+        <Main />
+        <Cart />
+      </Provider>
+    </>
+  );
+};
 
 export default Events;

@@ -1,28 +1,38 @@
-<<<<<<< HEAD
-import React, { useState, useEffect  } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector, connect } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-=======
-import React, { useState } from "react";
+import { LOGIN_SUCCESS, URL } from "../utils/constants";
+import { loginSuccess } from "../store/Reducer";
 
-import "./Login.css";
->>>>>>> d5b8e1b3933b9c4d5fb1402adab55d5fe9079d71
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    isloggedIn: state.isloggedIn,
+  };
+}
 
-const Login = () => {
-  let navigate = useNavigate();
+function mapDispatchToProps(dispatch) {
+  return {
+    addCurrentUser: (user) => dispatch({ type: LOGIN_SUCCESS, payload: user }),
+  };
+}
 
-  const [loading, setLoading] = useState(false);
-
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { message } = useSelector((state) => state.message);
-
+export const Login = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    dispatch();
-  }, [dispatch]);
+  // const isLoggedIn = useSelector((state) => state.user.user);
+  // const user = useSelector((state) => state.user.isLoggedIn);
+
+  // console.log(isLoggedIn);
+
+  // useEffect(() => {
+  //   dispatch();
+  // }, [dispatch]);
 
   const initialValues = {
     email: "",
@@ -34,29 +44,51 @@ const Login = () => {
     password: Yup.string().required("This field is required!"),
   });
 
-  const handleLogin = (formValue) => {
+  const handleLogin = async (formValue) => {
     const { email, password } = formValue;
-    setLoading(true);
+    // setLoading(true);
+    const reqOptions = {
+      method: "POST",
+      headers: {
+        Authorization: "Basic " + btoa(email + ":" + password),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formValue),
+    };
 
-    dispatch(({ email, password }))
-      .unwrap()
-      .then(() => {
-        navigate("/ticketguru-client");
-        window.location.reload();
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    try {
+      const response = await fetch(`${URL}/userlogin`, reqOptions);
+
+      if (response.status === 200) {
+        const json = await response.json();
+        setError("");
+        dispatch(loginSuccess(json));
+        navigate("/events");
+      } else {
+        setError("Väärä email tai salasana!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  if (isLoggedIn) {
-    return <Navigate to="/ticketguru-client" />;
-  }
+  // dispatch({ email, password })
+  //   .unwrap()
+  //   .then(() => {
+  //     navigate("/ticketguru-client");
+  //     window.location.reload();
+  //   })
+  //   .catch(() => {
+  //     setLoading(false);
+  //   });
+
+  // if (isLoggedIn) {
+  //   return <Navigate to="/ticketguru-client" />;
+  // }
 
   return (
     <div className="col-md-12 login-form">
       <div className="card card-container">
-     
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -73,7 +105,6 @@ const Login = () => {
               />
             </div>
 
-<<<<<<< HEAD
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <Field name="password" type="password" className="form-control" />
@@ -85,7 +116,11 @@ const Login = () => {
             </div>
 
             <div className="form-group">
-              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+              <button
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={loading}
+              >
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
@@ -96,19 +131,16 @@ const Login = () => {
         </Formik>
       </div>
 
-      {message && (
+      {/* {message && (
         <div className="form-group">
           <div className="alert alert-danger" role="alert">
             {message}
           </div>
         </div>
-      )}
-=======
-    <div className="Login">
-        
->>>>>>> d5b8e1b3933b9c4d5fb1402adab55d5fe9079d71
+      )} */}
+
+      {error.length > 0 && <p>{error}</p>}
     </div>
   );
 };
-
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
