@@ -7,6 +7,7 @@ import "../styles/main.css";
 import Venues from "./Venues";
 import { User } from "./User";
 
+
 export default function Main(props) {
   const [events, setEvents] = useState([]);
   const [eventtickets, setEventtickets] = useState([]);
@@ -270,6 +271,7 @@ export default function Main(props) {
         )}
 
         <div className="debug">{error.length > 0 && <p>{error}</p>}</div>
+        <Venues/>
       </div>
     </div>
   );
