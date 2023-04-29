@@ -6,6 +6,7 @@ import { URL, authEncoded } from "../utils/constants";
 import "../styles/main.css";
 import Venues from "./Venues";
 import { User } from "./User";
+import TicketTypes from "./TicketTypes";
 
 
 export default function Main(props) {
@@ -272,6 +273,8 @@ export default function Main(props) {
 
         <div className="debug">{error.length > 0 && <p>{error}</p>}</div>
         <Venues/>
+        <br></br>
+        <TicketTypes/>
       </div>
     </div>
   );
