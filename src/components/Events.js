@@ -139,7 +139,7 @@ const addEvent = async (e) => {
                 return (
                     <div key={ev.eventId}>
                         <span>
-                            {ev.eventName}, {ev.description}, {ev.starttime}, {ev.endtime}, {ev.presale_ends}, {ev.Venues.venueName}
+                            {ev.eventName}, {ev.description}, {ev.starttime}, {ev.endtime}, {ev.presale_ends}
                         </span>
                     </div>
                 );
