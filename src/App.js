@@ -2,7 +2,6 @@ import React from "react";
 import Events from "./components/Events";
 import CheckTickets from "./components/CheckTickets";
 import "./styles/app.css";
-
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PrintTickets from "./components/PrintTickets";
 import Login from "./components/Login";
@@ -10,6 +9,8 @@ import { Provider } from "react-redux";
 import store from "./store/Reducer";
 import TicketTypes from "./components/TicketTypes";
 import Resources from "./components/Resources";
+import Report from "./components/Report";
+
 
 export default function App() {
   // Provider React Reduxia varten - älä poista
@@ -25,6 +26,9 @@ export default function App() {
         <li>
           <Link to="/tickets">Tsekkaa lippu</Link>
         </li>
+        <li>
+          <Link to="/report">Raportti</Link>
+        </li>
 
 
         <Routes>
@@ -33,6 +37,7 @@ export default function App() {
           <Route path="/print" element={<PrintTickets />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/resources" element={<Resources />}></Route>
+          <Route path="/report" element={<Report />}></Route>
         </Routes>
       </BrowserRouter>
     </Provider>
