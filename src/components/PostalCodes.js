@@ -36,6 +36,22 @@ function PostalCodes() {
     // Lisää uuden postinumeron
     const postPostalCode = async (e) => {
         e.preventDefault();
+        const postalCodePattern = /^[0-9]{5,}$/;
+        const cityPattern = /^[a-zA-ZåäöÅÄÖ -]{1,100}$/;
+
+        if (!postalCodePattern.test(postalCode)) {
+            setError("Postinumeron tulee olla 5 numeroa");
+            return (
+                error
+            );
+        }
+        if (!cityPattern.test(city)) {
+            setError("Kaupungin nimessä ei sallita numeroita");
+            return (
+                error
+            );
+        }
+
         try {
             const reqOptions = {
                 method: "POST",
@@ -73,9 +89,11 @@ function PostalCodes() {
                 <label htmlFor="postalcode">Lisää puuttuva postinumero:</label>
                 < br />
                 <input type="text" required placeholder="Postinumero" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
-                <input type="text" required placeholder="Kaupunki" value={city} onChange={(e) => setCity(e.target.value)} />
+                <input type="text" required placeholder="Kaupunki" value={city} onChange={(e) => setCity(e.target.value.toUpperCase())} />
                 <button type="submit">Lisää</button>
             </form>
+
+            <div>{error.length > 0 && <p>{error}</p>}</div>
 
             <p>
                 <b>Postinumerot:</b>
@@ -89,9 +107,6 @@ function PostalCodes() {
                     </div>
                 );
             })}
-
-            <div>{error.length > 0 && <p>{error}</p>}</div>
-
         </div>
     )
 }

@@ -64,6 +64,7 @@ function Venues() {
     // Lisää uuden tapahtumapaikan
     const postVenue = async (e) => {
         e.preventDefault();
+
         try {
             const reqOptions = {
                 method: "POST",
@@ -76,7 +77,7 @@ function Venues() {
                     venueDescription: venueDescription,
                     address: address,
                     postalCode: {
-                        postalCode : postalCode
+                        postalCode: postalCode
                     }
                 }),
             };
@@ -100,7 +101,7 @@ function Venues() {
         }
     };
 
-    
+
 
     return (
         <div>
@@ -109,11 +110,11 @@ function Venues() {
                 <label htmlFor="venue">Lisää tapahtumapaikka:</label>
                 < br />
                 <input type="text" required placeholder="Tapahtumapaikan nimi" value={venueName} onChange={(e) => setVenueName(e.target.value)} />
-                <input type="text" required placeholder="Kuvaus" value={venueDescription} onChange={(e) => setVenueDescription(e.target.value)} />
+                <input type="text" placeholder="Kuvaus" value={venueDescription} onChange={(e) => setVenueDescription(e.target.value)} />
                 <input type="text" required placeholder="Katuosoite" value={address} onChange={(e) => setAddress(e.target.value)} />
                 <select value={postalCode} onChange={(e) => setPostalCode(e.target.value)}>
                     <option value="">Valitse postinumero</option>
-                    {postalCodes.map((pc) =>(
+                    {postalCodes.map((pc) => (
                         <option key={pc.postalCode} value={pc.postalCode}>
                             {pc.postalCode} {""} {pc.city}
                         </option>
@@ -121,6 +122,8 @@ function Venues() {
                 </select>
                 <button type="submit">Lisää</button>
             </form>
+
+            <div>{error.length > 0 && <p>{error}</p>}</div>
 
             <p>
                 <b>Tapahtumapaikat:</b>
@@ -137,8 +140,6 @@ function Venues() {
 
             < br />
             <PostalCodes />
-
-            <div>{error.length > 0 && <p>{error}</p>}</div>
 
         </div>
     );
