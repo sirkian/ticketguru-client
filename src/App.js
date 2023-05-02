@@ -16,16 +16,16 @@ export default function App() {
   // Provider React Reduxia varten - älä poista
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/ticketguru-client">
         <Navbar />
         <Routes>
           <Route index element={<Events />} />
-          <Route path="addevent" element={<AddEvent />} />
-          <Route path="tickets" element={<CheckTickets />} />
-          <Route path="print" element={<PrintTickets />} />
-          <Route path="resources" element={<Resources />} />
-          <Route path="report" element={<Report />} />
-          <Route path="login" element={<Login />} />
+          <Route exact path="/addevent" element={<AddEvent />} />
+          <Route exact path="/tickets" element={<CheckTickets />} />
+          <Route exact path="/print" element={<PrintTickets />} />
+          <Route exact path="/resources" element={<Resources />} />
+          <Route exact path="/report" element={<Report />} />
+          <Route exact path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </Provider>
