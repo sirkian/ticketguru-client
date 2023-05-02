@@ -1,11 +1,21 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/Reducer";
 
 export function User() {
   const currentUser = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+
   return (
     <div>
-      <div>{currentUser.email}</div>
+      <div>
+        <span>
+          {currentUser.firstName} {currentUser.lastName}
+        </span>{" "}
+        <button onClick={() => dispatch(logout(currentUser))}>
+          Kirjaudu ulos
+        </button>
+      </div>
     </div>
   );
 }

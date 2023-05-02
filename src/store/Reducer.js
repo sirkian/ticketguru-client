@@ -5,6 +5,7 @@ import {
   CALCULATE_TOTAL_PRICE,
   CLEAR_CART,
   LOGIN_SUCCESS,
+  LOGOUT,
 } from "../utils/constants";
 
 const initialState = {
@@ -125,6 +126,13 @@ export const loginSuccess = (user) => {
   };
 };
 
+export const logout = (user) => {
+  return {
+    type: LOGOUT,
+    payload: user,
+  };
+};
+
 function userReducer(state = initialUserState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
@@ -132,6 +140,12 @@ function userReducer(state = initialUserState, action) {
         ...state,
         user: action.payload,
         isLoggedIn: true,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        user: null,
+        isLoggedIn: false,
       };
     default:
       return state;
