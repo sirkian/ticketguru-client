@@ -1,0 +1,28 @@
+.navContainer {
+    width: 100vw;
+    padding: 2em;
+    border: 1px solid black;
+    margin-bottom: 2em;
+    
+}
+
+.navLinks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navLinks > ul {
+    display: flex;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    margin: 0 1em;
+}
+
+a:visited {
+    color: inherit;
+}
