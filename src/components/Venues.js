@@ -104,7 +104,6 @@ function Venues() {
 
   return (
     <div className="resourcesInnerContainer">
-      {fetchPostalCodes}
       <form onSubmit={postVenue}>
         <label htmlFor="venue">Lisää tapahtumapaikka:</label>
         <br />

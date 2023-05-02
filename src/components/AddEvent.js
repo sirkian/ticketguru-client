@@ -65,11 +65,6 @@ function AddEvent() {
     }
   };
 
-  const serializeDate = (dateString) => {
-    const [day, month, year, hrs, mins, secs] = dateString.split("-");
-    return `${year}-${month}-${day}T${hrs}:${mins}:${secs}`;
-  };
-
   //Lisää uuden tapahtuman
   const addEvent = async (e) => {
     e.preventDefault();
@@ -83,10 +78,10 @@ function AddEvent() {
         body: JSON.stringify({
           eventName: eventName,
           description: description,
-          startTime: serializeDate(starttime),
-          endTime: serializeDate(endtime),
+          startTime: starttime,
+          endTime: endtime,
           amountTickets: amountTickets,
-          presaleEnds: serializeDate(presale_ends),
+          presaleEnds: presale_ends,
           cancelled: false,
           venue: {
             venueId: venue,
@@ -134,14 +129,14 @@ function AddEvent() {
           onChange={(e) => setDescription(e.target.value)}
         />
         <input
-          type="text"
+          type="datetime-local"
           required
           placeholder="Alkuaika"
           value={starttime}
           onChange={(e) => setStarttime(e.target.value)}
         />
         <input
-          type="text"
+          type="datetime-local"
           required
           placeholder="Loppuaika"
           value={endtime}
@@ -155,7 +150,7 @@ function AddEvent() {
           onChange={(e) => setAmountTickets(e.target.value)}
         />
         <input
-          type="text"
+          type="datetime-local"
           required
           placeholder="Lipunmyynti päättyy"
           value={presale_ends}
