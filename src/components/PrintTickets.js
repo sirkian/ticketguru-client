@@ -12,7 +12,6 @@ const PrintTickets = () => {
 
   return (
     <div className="printContainer">
-      <h2>Liput</h2>
       {location.state.map((ticket) => (
         <div className="ticketPrint" key={ticket.ticketId}>
           <p>{ticket.verificationCode}</p>

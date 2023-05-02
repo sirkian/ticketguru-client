@@ -5,6 +5,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { LOGIN_SUCCESS, URL } from "../utils/constants";
 import { loginSuccess } from "../store/Reducer";
+import "../styles/login.css";
 
 function mapStateToProps(state) {
   return {
@@ -63,7 +64,7 @@ export const Login = (props) => {
         const json = await response.json();
         setError("");
         dispatch(loginSuccess(json));
-        navigate("/events");
+        navigate("/");
       } else {
         setError("Väärä email tai salasana!");
       }
@@ -87,7 +88,7 @@ export const Login = (props) => {
   // }
 
   return (
-    <div className="col-md-12 login-form">
+    <div className="loginContainer">
       <div className="card card-container">
         <Formik
           initialValues={initialValues}

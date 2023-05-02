@@ -7,13 +7,16 @@ import "../styles/main.css";
 import Venues from "./Venues";
 import { User } from "./User";
 import TicketTypes from "./TicketTypes";
+import { Link } from "react-router-dom";
+import Login from "./Login";
 
-
-export default function Main(props) {
+export function Main(props) {
   const [events, setEvents] = useState([]);
   const [eventtickets, setEventtickets] = useState([]);
   const [error, setError] = useState("Ladataan tapahtumia");
   const [ticketsLeft, setTicketsLeft] = useState(0);
+  const currentUser = useSelector((state) => state.user.user);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
     fetchEvents();
@@ -170,11 +173,10 @@ export default function Main(props) {
     dispatch(calculateTotalPrice(ticket));
   };
 
-  console.log(events);
+  if (!isLoggedIn) return <Login />;
 
   return (
     <div className="eventContainer">
-      <User />
       <div className="innerContainer">
         <h3>TicketGuru Ticket sales</h3>
 
@@ -272,10 +274,9 @@ export default function Main(props) {
         )}
 
         <div className="debug">{error.length > 0 && <p>{error}</p>}</div>
-        <Venues/>
-        <br></br>
-        <TicketTypes/>
       </div>
     </div>
   );
 }
+
+export default connect()(Main);

@@ -1,5 +1,10 @@
+.eventContainer {
+    display: flex;
+    justify-content: center;
+}
+
 .events {
-    max-width: 40em;
+    width: 20vw;
     margin: 5em 0 3em 0;
 }
 
