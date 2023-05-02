@@ -6,8 +6,13 @@ import Venues from "./Venues";
 import EventTicketTypes from "./EventTicketTypes";
 import { connect, useSelector } from "react-redux";
 import "../styles/resources.css";
+import Login from "./Login";
 
 export function Resources() {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+  if (!isLoggedIn) return <Login />;
+
   return (
     <div className="resourcesContainer">
       <AddEvent />

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { URL, authEncoded } from "../utils/constants";
+import "../styles/resources.css";
+import { formatTime } from "../utils/utils";
 
 function AddEvent() {
   const [events, setEvents] = useState([]);
@@ -8,8 +10,8 @@ function AddEvent() {
   const [description, setDescription] = useState([]);
   const [starttime, setStarttime] = useState("");
   const [endtime, setEndtime] = useState("");
+  const [amountTickets, setAmountTickets] = useState("");
   const [presale_ends, setPresale_ends] = useState("");
-  const [cancelled, setCancelled] = useState("");
   const [venue, setVenue] = useState("");
   const [venues, setVenues] = useState([]);
 
@@ -30,8 +32,6 @@ function AddEvent() {
         Authorization: "Basic " + authEncoded,
       },
     };
-
-    console.log("ADDEVENTS " + authEncoded);
 
     try {
       const response = await fetch(`${URL}/events`, reqOptions);
@@ -65,6 +65,11 @@ function AddEvent() {
     }
   };
 
+  const serializeDate = (dateString) => {
+    const [day, month, year, hrs, mins, secs] = dateString.split("-");
+    return `${year}-${month}-${day}T${hrs}:${mins}:${secs}`;
+  };
+
   //Lisää uuden tapahtuman
   const addEvent = async (e) => {
     e.preventDefault();
@@ -78,12 +83,13 @@ function AddEvent() {
         body: JSON.stringify({
           eventName: eventName,
           description: description,
-          starttime: starttime,
-          endtime: endtime,
-          presale_ends: presale_ends,
-          cancelled: cancelled,
-          Venues: {
-            venue: venue,
+          startTime: serializeDate(starttime),
+          endTime: serializeDate(endtime),
+          amountTickets: amountTickets,
+          presaleEnds: serializeDate(presale_ends),
+          cancelled: false,
+          venue: {
+            venueId: venue,
           },
         }),
       };
@@ -100,8 +106,6 @@ function AddEvent() {
         setStarttime("");
         setEndtime("");
         setPresale_ends("");
-        setCancelled("");
-        setVenues("");
         setError("");
         fetchEvents();
       }
@@ -111,7 +115,7 @@ function AddEvent() {
   };
 
   return (
-    <div>
+    <div className="resourcesInnerContainer">
       <form onSubmit={addEvent}>
         <label htmlFor="event">Lisää tapahtuma:</label>
         <br />
@@ -144,19 +148,27 @@ function AddEvent() {
           onChange={(e) => setEndtime(e.target.value)}
         />
         <input
+          type="number"
+          required
+          placeholder="Lippujen määrä"
+          value={amountTickets}
+          onChange={(e) => setAmountTickets(e.target.value)}
+        />
+        <input
           type="text"
           required
           placeholder="Lipunmyynti päättyy"
           value={presale_ends}
           onChange={(e) => setPresale_ends(e.target.value)}
         />
-        <input
-          type="text"
-          required
-          placeholder="Tapahtumapaikka"
-          value={venue}
-          onChange={(e) => setVenues(e.target.value)}
-        />
+        <select value={venue} onChange={(e) => setVenue(e.target.value)}>
+          <option value="">Valitse tapahtumapaikka</option>
+          {venues.map((venue) => (
+            <option key={venue.venueName} value={venue.venueId}>
+              {venue.venueName}
+            </option>
+          ))}
+        </select>
         <button type="submit">Lisää</button>
       </form>
 
@@ -167,8 +179,7 @@ function AddEvent() {
         return (
           <div key={ev.eventId}>
             <span>
-              {ev.eventName}, {ev.description}, {ev.starttime}, {ev.endtime},{" "}
-              {ev.presale_ends}
+              {ev.eventName}, {ev.description}, {formatTime(ev.startTime)}
             </span>
           </div>
         );
