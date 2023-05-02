@@ -15,9 +15,6 @@ export function Navbar() {
               <Link to="/">Etusivu</Link>
             </li>
             <li>
-              <Link to="addevent">Lisää tapahtuma</Link>
-            </li>
-            <li>
               <Link to="resources">Lisää resursseja</Link>
             </li>
             <li>

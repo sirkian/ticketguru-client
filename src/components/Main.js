@@ -4,10 +4,6 @@ import { addToCart, calculateTotalPrice } from "../store/Reducer";
 import { formatPrice, formatTime } from "../utils/utils";
 import { URL, authEncoded } from "../utils/constants";
 import "../styles/main.css";
-import Venues from "./Venues";
-import { User } from "./User";
-import TicketTypes from "./TicketTypes";
-import { Link } from "react-router-dom";
 import Login from "./Login";
 
 export function Main(props) {

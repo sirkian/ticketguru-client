@@ -1,10 +1,5 @@
-import { Provider } from "react-redux";
-import store from "../store/Reducer";
-import Main from "./Main";
-import Cart from "./Cart";
 import { useEffect, useState } from "react";
 import { URL, authEncoded } from "../utils/constants";
-import Venues from "./Venues";
 
 function AddEvent() {
   const [events, setEvents] = useState([]);
@@ -15,7 +10,8 @@ function AddEvent() {
   const [endtime, setEndtime] = useState("");
   const [presale_ends, setPresale_ends] = useState("");
   const [cancelled, setCancelled] = useState("");
-  const [venue, setVenues] = useState("");
+  const [venue, setVenue] = useState("");
+  const [venues, setVenues] = useState([]);
 
   useEffect(() => {
     fetchEvents();
@@ -35,6 +31,8 @@ function AddEvent() {
       },
     };
 
+    console.log("ADDEVENTS " + authEncoded);
+
     try {
       const response = await fetch(`${URL}/events`, reqOptions);
       const json = await response.json();
@@ -45,6 +43,7 @@ function AddEvent() {
       setError(error.message);
     }
   };
+
   const fetchVenues = async () => {
     const reqOptions = {
       method: "GET",
@@ -113,7 +112,6 @@ function AddEvent() {
 
   return (
     <div>
-      {fetchVenues}
       <form onSubmit={addEvent}>
         <label htmlFor="event">Lisää tapahtuma:</label>
         <br />
@@ -175,10 +173,6 @@ function AddEvent() {
           </div>
         );
       })}
-
-      <br />
-      <Venues />
-
       <div>{error.length > 0 && <p>{error}</p>}</div>
     </div>
   );
