@@ -10,4 +10,5 @@ export const CALCULATE_TOTAL_PRICE = "CALCULATE_TOTAL_PRICE";
 export const CLEAR_CART = "CLEAR_CART";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const SET_USER = "SET_USER";
 export const LOGOUT = "LOGOUT";

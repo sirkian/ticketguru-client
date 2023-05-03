@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { addToCart, calculateTotalPrice } from "../store/Reducer";
 import { formatPrice, formatTime } from "../utils/utils";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import "../styles/main.css";
 import Login from "./Login";
 
@@ -13,17 +13,20 @@ export function Main(props) {
   const [ticketsLeft, setTicketsLeft] = useState(0);
   const currentUser = useSelector((state) => state.user.user);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // currentUser.authorities.some((item) => item.authority === "ADMIN")
 
   useEffect(() => {
-    fetchEvents();
-  }, []);
+    if (isLoggedIn) {
+      fetchEvents();
+    }
+  }, [isLoggedIn]);
 
   const fetchEvents = async () => {
     const reqOptions = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -46,7 +49,7 @@ export function Main(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -77,7 +80,7 @@ export function Main(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -124,7 +127,7 @@ export function Main(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -147,7 +150,7 @@ export function Main(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
     try {

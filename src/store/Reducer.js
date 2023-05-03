@@ -6,6 +6,7 @@ import {
   CLEAR_CART,
   LOGIN_SUCCESS,
   LOGOUT,
+  SET_USER,
 } from "../utils/constants";
 
 const initialState = {
@@ -126,6 +127,13 @@ export const loginSuccess = (user) => {
   };
 };
 
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    payload: user,
+  };
+};
+
 export const logout = (user) => {
   return {
     type: LOGOUT,
@@ -141,7 +149,15 @@ function userReducer(state = initialUserState, action) {
         user: action.payload,
         isLoggedIn: true,
       };
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+        isLoggedIn: true,
+      };
     case LOGOUT:
+      // Poistetaan user localStoragesta kun kirjaudutaan ulos
+      localStorage.removeItem("user");
       return {
         ...state,
         user: null,

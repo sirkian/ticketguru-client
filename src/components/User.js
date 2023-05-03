@@ -9,9 +9,7 @@ export function User() {
   return (
     <div>
       <div>
-        <span>
-          {currentUser.firstName} {currentUser.lastName}
-        </span>{" "}
+        <span>{currentUser.email}</span>{" "}
         <button onClick={() => dispatch(logout(currentUser))}>
           Kirjaudu ulos
         </button>

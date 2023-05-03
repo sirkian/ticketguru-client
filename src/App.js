@@ -5,12 +5,13 @@ import "./styles/app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrintTickets from "./components/PrintTickets";
 import Login from "./components/Login";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "./store/Reducer";
 import Resources from "./components/Resources";
 import Report from "./components/Report";
 import Navbar from "./components/Navbar";
 import AddEvent from "./components/AddEvent";
+import { SET_USER } from "./utils/constants";
 
 export default function App() {
   // Provider React Reduxia varten - älä poista

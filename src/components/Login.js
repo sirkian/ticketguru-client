@@ -58,12 +58,15 @@ export const Login = (props) => {
     };
 
     try {
-      const response = await fetch(`${URL}/userlogin`, reqOptions);
+      const response = await fetch(`${URL}/appusers/login`, reqOptions);
 
       if (response.status === 200) {
         const json = await response.json();
         setError("");
         dispatch(loginSuccess(json));
+        // Tallennetaan käyttäjä myös localStorageen
+        // Nyt voi hakata f5 eikä kirjaudu ulos enää
+        localStorage.setItem("user", JSON.stringify(json));
         navigate("/");
       } else {
         setError("Väärä email tai salasana!");
