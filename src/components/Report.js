@@ -5,6 +5,7 @@ import Login from "./Login";
 
 export function Report() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const currentUser = useSelector((state) => state.user.user);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
   const [event, setEvent] = useState("");
@@ -20,7 +21,7 @@ export function Report() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -40,7 +41,7 @@ export function Report() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
     try {

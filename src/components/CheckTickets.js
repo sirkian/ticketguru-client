@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import { formatPrice, formatTime } from "../utils/utils";
 import "../styles/checkTickets.css";
 import { connect, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import Login from "./Login";
 
 export function CheckTickets() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const currentUser = useSelector((state) => state.user.user);
   const [vCode, setVCode] = useState("");
   const [ticket, setTicket] = useState(null);
   const [error, setError] = useState("");
@@ -15,7 +16,7 @@ export function CheckTickets() {
     const reqOptions = {
       method: "GET",
       headers: {
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 
@@ -47,7 +48,7 @@ export function CheckTickets() {
     const reqOptions = {
       method: "PATCH",
       headers: {
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
 

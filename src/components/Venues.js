@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import PostalCodes from "./PostalCodes";
 import "../styles/resources.css";
 
-function Venues() {
+function Venues({ token }) {
   const [venues, setVenues] = useState([]);
   const [error, setError] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -14,9 +14,6 @@ function Venues() {
 
   useEffect(() => {
     fetchVenues();
-  }, []);
-
-  useEffect(() => {
     fetchPostalCodes();
   }, []);
 
@@ -26,7 +23,7 @@ function Venues() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -47,7 +44,7 @@ function Venues() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -71,7 +68,7 @@ function Venues() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + authEncoded,
+          Authorization: token,
         },
         body: JSON.stringify({
           venueName: venueName,
@@ -158,7 +155,7 @@ function Venues() {
       })}
 
       <br />
-      <PostalCodes />
+      <PostalCodes token={token} />
     </div>
   );
 }

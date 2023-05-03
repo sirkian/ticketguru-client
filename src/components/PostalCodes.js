@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import "../styles/resources.css";
 
-function PostalCodes() {
+function PostalCodes({ token }) {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +18,7 @@ function PostalCodes() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -53,7 +53,7 @@ function PostalCodes() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + authEncoded,
+          Authorization: token,
         },
         body: JSON.stringify({
           postalCode: postalCode,

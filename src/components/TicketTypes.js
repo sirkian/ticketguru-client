@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 
-function TicketTypes() {
+function TicketTypes({ token }) {
   const [ticketTypes, setTicketTypes] = useState([]);
   const [error, setError] = useState("");
   const [typeName, setTypeName] = useState("");
@@ -17,7 +17,7 @@ function TicketTypes() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -44,7 +44,7 @@ function TicketTypes() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + authEncoded,
+          Authorization: token,
         },
         body: JSON.stringify({
           typeName: typeName,

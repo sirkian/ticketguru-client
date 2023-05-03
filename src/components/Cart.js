@@ -7,12 +7,7 @@ import {
   clearCart,
   removeFromCart,
 } from "../store/Reducer";
-import {
-  ADD_TO_CART,
-  CALCULATE_TOTAL_PRICE,
-  URL,
-  authEncoded,
-} from "../utils/constants";
+import { ADD_TO_CART, CALCULATE_TOTAL_PRICE, URL } from "../utils/constants";
 import "../styles/cart.css";
 import Transaction from "./Transaction";
 
@@ -36,6 +31,7 @@ function mapDispatchToProps(dispatch) {
 export function Cart(props) {
   const cartTickets = useSelector((state) => state.tickets.cartTickets);
   const totalPrice = useSelector((state) => state.tickets.totalPrice);
+  const currentUser = useSelector((state) => state.user.user);
   const [transaction, setTransaction] = useState([]);
   const [transactionIsVisible, setTransactionIsVisible] = useState(false);
   const [cartIsVisible, setCartIsVisible] = useState(true);
@@ -60,7 +56,7 @@ export function Cart(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
       body: JSON.stringify({ total: totalPrice, appUser: { userId: 1 } }),
     };
@@ -90,7 +86,7 @@ export function Cart(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
       body: JSON.stringify({
         usedDate: null,
@@ -115,7 +111,7 @@ export function Cart(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
     try {

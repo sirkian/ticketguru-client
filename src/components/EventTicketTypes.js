@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import "../styles/resources.css";
 
-function EventTicketTypes() {
+function EventTicketTypes({ token }) {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -23,7 +23,7 @@ function EventTicketTypes() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -45,7 +45,7 @@ function EventTicketTypes() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -66,7 +66,7 @@ function EventTicketTypes() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -97,7 +97,7 @@ function EventTicketTypes() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
       body: JSON.stringify({
         event: { eventId: event },

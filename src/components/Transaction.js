@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { formatPrice, formatTime } from "../utils/utils";
 import "../styles/transaction.css";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useSelector, connect } from "react-redux";
 
-function Transaction({ transaction, onClear }) {
+export function Transaction({ transaction, onClear }) {
   const [transactionProp, setTransactionProp] = useState(transaction);
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.user);
 
   const handleConfirm = async (id) => {
     //TODO
@@ -15,7 +17,7 @@ function Transaction({ transaction, onClear }) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
       body: true,
     };
@@ -41,7 +43,7 @@ function Transaction({ transaction, onClear }) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: currentUser.token,
       },
     };
     try {
@@ -99,4 +101,4 @@ function Transaction({ transaction, onClear }) {
   );
 }
 
-export default Transaction;
+export default connect()(Transaction);

@@ -7,9 +7,6 @@ const PrintTickets = () => {
   // UseLocation ottaa vastaan useNavigaten lähettämän tiedon
   const location = useLocation();
 
-  // location.state on se objektitaulukko, jossa liput
-  console.log(location.state);
-
   return (
     <div className="printContainer">
       {location.state.map((ticket) => (

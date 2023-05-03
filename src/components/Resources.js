@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import TicketTypes from "./TicketTypes";
-import PostalCodes from "./PostalCodes";
 import AddEvent from "./AddEvent";
 import Venues from "./Venues";
 import EventTicketTypes from "./EventTicketTypes";
@@ -10,15 +9,16 @@ import Login from "./Login";
 
 export function Resources() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const currentUser = useSelector((state) => state.user.user);
 
   if (!isLoggedIn) return <Login />;
 
   return (
     <div className="resourcesContainer">
-      <AddEvent />
-      <TicketTypes />
-      <Venues />
-      <EventTicketTypes />
+      <AddEvent token={currentUser.token} />
+      <TicketTypes token={currentUser.token} />
+      <Venues token={currentUser.token} />
+      <EventTicketTypes token={currentUser.token} />
     </div>
   );
 }

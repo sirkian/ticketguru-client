@@ -3,7 +3,7 @@ import { URL, authEncoded } from "../utils/constants";
 import "../styles/resources.css";
 import { formatTime } from "../utils/utils";
 
-function AddEvent() {
+function AddEvent({ token }) {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
   const [eventName, setEventName] = useState("");
@@ -17,9 +17,6 @@ function AddEvent() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
-
-  useEffect(() => {
     fetchVenues();
   }, []);
 
@@ -29,7 +26,7 @@ function AddEvent() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -49,7 +46,7 @@ function AddEvent() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + authEncoded,
+        Authorization: token,
       },
     };
 
@@ -73,7 +70,7 @@ function AddEvent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + authEncoded,
+          Authorization: token,
         },
         body: JSON.stringify({
           eventName: eventName,
