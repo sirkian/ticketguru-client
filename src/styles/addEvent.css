@@ -1,0 +1,98 @@
+h2 {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+h2:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.addEventForm {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0 auto;
+    margin-bottom: 2em;
+}
+
+.addEventForm input {
+    padding: 0.6em;
+    margin-bottom: 0.8em; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+}
+
+.addEventForm select {
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
+
+.addEventForm label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.addEventForm button {
+    background-color: rgba(72, 189, 120, 0.6);
+    border: none;
+    padding: 0.6em;
+    border-radius: 3px;  
+}
+
+.addEventForm button:hover {
+    cursor: pointer;
+    background-color: rgba(72, 189, 120, 0.9);
+}
+
+.showEventsContainer {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.showEvents {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.showEvents button {
+    border: none;
+    padding: 0.7em;
+    border-radius: 3px;
+    
+}
+
+.showEvent {
+    display: flex;
+    flex-direction: column;
+}
+
+.showEvent span {
+    margin-bottom: 0.15em;
+}
+
+.showEvent span:first-child {
+    font-weight: bold;
+}
+
+.showEvent span:nth-child(2) {
+    font-size: 0.8em;
+}
+
+.cancelled {
+    display: flex;
+    flex-direction: column;
+    color:lightgray
+}
+

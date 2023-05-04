@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import "../styles/resources.css";
 import { formatTime } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
+import "../styles/addEvent.css";
 
 function AddEvent({ token }) {
   const [events, setEvents] = useState([]);
@@ -14,6 +16,8 @@ function AddEvent({ token }) {
   const [presale_ends, setPresale_ends] = useState("");
   const [venue, setVenue] = useState("");
   const [venues, setVenues] = useState([]);
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchEvents();
@@ -62,6 +66,8 @@ function AddEvent({ token }) {
     }
   };
 
+  console.log(venues);
+
   //Lisää uuden tapahtuman
   const addEvent = async (e) => {
     e.preventDefault();
@@ -106,77 +112,107 @@ function AddEvent({ token }) {
     }
   };
 
+  const handleEditEvent = (ev) => {
+    navigate("/editevent", { state: { ev, venues, token } });
+  };
+
   return (
     <div className="resourcesInnerContainer">
-      <form onSubmit={addEvent}>
-        <label htmlFor="event">Lisää tapahtuma:</label>
-        <br />
-        <input
-          type="text"
-          required
-          placeholder="Tapahtuman nimi"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-        />
-        <input
-          type="text"
-          required
-          placeholder="Kuvaus"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          required
-          placeholder="Alkuaika"
-          value={starttime}
-          onChange={(e) => setStarttime(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          required
-          placeholder="Loppuaika"
-          value={endtime}
-          onChange={(e) => setEndtime(e.target.value)}
-        />
-        <input
-          type="number"
-          required
-          placeholder="Lippujen määrä"
-          value={amountTickets}
-          onChange={(e) => setAmountTickets(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          required
-          placeholder="Lipunmyynti päättyy"
-          value={presale_ends}
-          onChange={(e) => setPresale_ends(e.target.value)}
-        />
-        <select value={venue} onChange={(e) => setVenue(e.target.value)}>
-          <option value="">Valitse tapahtumapaikka</option>
-          {venues.map((venue) => (
-            <option key={venue.venueName} value={venue.venueId}>
-              {venue.venueName}
-            </option>
-          ))}
-        </select>
-        <button type="submit">Lisää</button>
-      </form>
+      <h2 onClick={() => setIsVisible(!isVisible)}>Lisää tapahtuma</h2>
+      {isVisible && (
+        <div className="addEvent">
+          <form className="addEventForm" onSubmit={addEvent}>
+            <label>Tapahtuman nimi</label>
+            <input
+              type="text"
+              required
+              placeholder="Tapahtuman nimi"
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
+            />
+            <label>Tapahtuman kuvaus</label>
+            <input
+              type="text"
+              required
+              placeholder="Kuvaus"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <label>Tapahtuma alkaa</label>
+            <input
+              type="datetime-local"
+              required
+              placeholder="Alkuaika"
+              value={starttime}
+              onChange={(e) => setStarttime(e.target.value)}
+            />
+            <label>Tapahtuma päättyy</label>
+            <input
+              type="datetime-local"
+              required
+              placeholder="Loppuaika"
+              value={endtime}
+              onChange={(e) => setEndtime(e.target.value)}
+            />
+            <label>Lippujen määrä</label>
+            <input
+              type="number"
+              required
+              placeholder="Lippujen määrä"
+              value={amountTickets}
+              onChange={(e) => setAmountTickets(e.target.value)}
+            />
+            <label>Ennakkolippujen myynti päättyy</label>
+            <input
+              type="datetime-local"
+              required
+              placeholder="Lipunmyynti päättyy"
+              value={presale_ends}
+              onChange={(e) => setPresale_ends(e.target.value)}
+            />
+            <label>Tapahtumapaikka</label>
+            <select value={venue} onChange={(e) => setVenue(e.target.value)}>
+              <option value="">Valitse tapahtumapaikka</option>
+              {venues.map((venue) => (
+                <option key={venue.venueName} value={venue.venueId}>
+                  {venue.venueName}
+                </option>
+              ))}
+            </select>
+            <button type="submit">Lisää</button>
+          </form>
 
-      <p>
-        <b>Tapahtumat:</b>
-      </p>
-      {events.map((ev) => {
-        return (
-          <div key={ev.eventId}>
-            <span>
-              {ev.eventName}, {ev.description}, {formatTime(ev.startTime)}
-            </span>
+          <div className="showEventsContainer">
+            <p>
+              <b>Tapahtumat:</b>
+            </p>
+            {events.map((ev) => {
+              return (
+                <div className="showEvents" key={ev.eventId}>
+                  <div className={ev.cancelled ? "cancelled" : "showEvent"}>
+                    <span>{ev.eventName}</span>
+                    <span>{ev.description}</span>
+                    <span>
+                      {formatTime(ev.startTime)} - {formatTime(ev.endTime)}
+                    </span>
+                    <span>
+                      {ev.venue.venueName} {ev.venue.address},{" "}
+                      {ev.venue.postalCode.city}{" "}
+                    </span>
+                    <span>
+                      Ennakkomyynti päättyy {formatTime(ev.presaleEnds)}
+                    </span>
+                  </div>
+                  <div>
+                    <button onClick={() => handleEditEvent(ev)}>Muokkaa</button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-      <div>{error.length > 0 && <p>{error}</p>}</div>
+          <div>{error.length > 0 && <p>{error}</p>}</div>
+        </div>
+      )}
     </div>
   );
 }

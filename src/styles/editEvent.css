@@ -1,0 +1,65 @@
+.editEventContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editEventForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.editEventForm h1 {
+    font-weight: lighter;
+}
+
+.editEventInputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1em
+}
+
+.editEventInputs input {
+    padding: 0.6em;
+    margin-bottom: 0.5em; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+}
+
+.editEventInputs select {
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
+
+.editEventInputs label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.editEventInputs button {
+    background-color: rgba(240, 128, 128, 0.6);
+    border: none;
+    padding: 0.6em;
+    border-radius: 3px;  
+}
+
+.editEventInputs button:hover {
+    cursor: pointer;
+    background-color: rgba(240, 128, 128, 0.9);
+}
+
+.editEventFormBtns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.editEventFormBtns button {
+    padding: 0.5em;
+    cursor: pointer;
+}

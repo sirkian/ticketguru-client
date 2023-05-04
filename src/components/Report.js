@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { URL, authEncoded } from "../utils/constants";
+import { URL } from "../utils/constants";
 import { connect, useSelector } from "react-redux";
 import Login from "./Login";
 

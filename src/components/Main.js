@@ -222,20 +222,24 @@ export function Main(props) {
             <p>
               <b>Tapahtumat:</b>
             </p>
-            {events.map((ev) => {
+            {events.map((ev, index) => {
               return (
-                <div
-                  className="event"
-                  key={ev.eventId}
-                  onClick={(e) => fetchEventTicketTypes(ev.eventId)}
-                >
-                  <span>
-                    {formatTime(ev.startTime)} {ev.venue.venueName},{" "}
-                    {ev.venue.postalCode.city}
-                  </span>
-                  <span>
-                    <b>{ev.eventName}</b>
-                  </span>
+                <div key={index}>
+                  {!ev.cancelled && (
+                    <div
+                      className="event"
+                      key={ev.eventId}
+                      onClick={(e) => fetchEventTicketTypes(ev.eventId)}
+                    >
+                      <span>
+                        {formatTime(ev.startTime)} {ev.venue.venueName},{" "}
+                        {ev.venue.postalCode.city}
+                      </span>
+                      <span>
+                        <b>{ev.eventName}</b>
+                      </span>
+                    </div>
+                  )}
                 </div>
               );
             })}

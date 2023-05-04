@@ -12,6 +12,7 @@ import Report from "./components/Report";
 import Navbar from "./components/Navbar";
 import AddEvent from "./components/AddEvent";
 import { SET_USER } from "./utils/constants";
+import EditEvent from "./components/EditEvent";
 
 export default function App() {
   // Provider React Reduxia varten - älä poista
@@ -22,6 +23,7 @@ export default function App() {
         <Routes>
           <Route index element={<Events />} />
           <Route exact path="/addevent" element={<AddEvent />} />
+          <Route exact path="/editevent" element={<EditEvent />} />
           <Route exact path="/tickets" element={<CheckTickets />} />
           <Route exact path="/print" element={<PrintTickets />} />
           <Route exact path="/resources" element={<Resources />} />
