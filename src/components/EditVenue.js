@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { URL } from "../utils/constants";
 import "../styles/editVenue.css";
+
+import { formatTime } from "../utils/utils";
 
 function EditVenue() {
     const navigate = useNavigate();
@@ -10,11 +12,18 @@ function EditVenue() {
     const postalCodes = location.state.postalCodes;
     const [venue, setVenue] = useState(location.state.ve);
     const [postalCode, setPostalCode] = useState(venue.postalCode.postalCode);
+    const [events, setEvents] = useState([]);
+    const [error, setError] = useState("Ladataan tapahtumia");
 
     const handleChange = (e) => {
         setVenue({ ...venue, [e.target.name]: e.target.value });
     };
 
+    useEffect(() => {
+        fetchVenuesEvents(venue.venueId);
+    }, []);
+
+    // Tapahtumapaikan muutokset
     const handleUpdate = async () => {
         const reqOptions = {
             method: "PUT",
@@ -33,37 +42,28 @@ function EditVenue() {
         };
         try {
             const response = await fetch(`${URL}/venues/${venue.venueId}`, reqOptions);
-
+            setError("");
             if (response.status === 200) navigate(-1);
         } catch (error) {
-            console.log(error.message);
+            setError(error.message);
         }
     };
 
-    const handleDeleteClick = async (venueId) => {
-        console.log(`handleDeleteClick called with venueId: ${venueId}`);
+    // Poiston käsittely
+    const handleDelete = async (venueId) => {
+        // console.log(`handleDelete called with venueId: ${venueId}`);
         try {
-          const result = await confirmDelete(venueId);
-          if (result) {
-            await deleteVenue(venueId);
-            alert("Poisto onnistui!");
-            navigate(-1);
-          }
+            if (window.confirm("Haluatko varmasti poistaa tämän tapahtumapaikan?")) {
+                await deleteVenue(venueId);
+                setError("");
+                navigate(-1);
+            }
         } catch (error) {
-          console.log(error.message);
+            setError(error.message);
         }
-      };
-      
-     const confirmDelete = (venueId) => {
-        return new Promise((resolve, reject) => {
-          if (window.confirm("Haluatko varmasti poistaa tämän tapahtumapaikan?")) {
-            resolve();
-          } else {
-            reject("Poisto keskeytetty");
-          }
-        });
-      };
+    };
 
+    // Tapahtumapaikan poisto
     const deleteVenue = async (venueId) => {
         const reqOptions = {
             method: "DELETE",
@@ -74,14 +74,43 @@ function EditVenue() {
         };
         try {
             const response = await fetch(`${URL}/venues/${venueId}`, reqOptions);
-            console.log(response.status);
             if (response.status === 200);
+            setError("");
+        } catch (error) {
+            setError(error.message);
+            throw error;
+        }
+    };
+
+    // Haetaan tapahtumapaikan tapahtumat
+    const fetchVenuesEvents = async (venueId) => {
+        const reqOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+            },
+        };
+        try {
+            const response = await fetch(`${URL}/venues/${venueId}/events`, reqOptions);
+            const json = await response.json();
+
+            if (response.status === 404) {
+                setError("Tapahtumapaikalla ei löydy tapahtumia!");
+                setEvents(null);
+            } else {
+                setEvents(json);
+                setError("");
+            }
         } catch (error) {
             console.log(error.message);
             throw error;
         }
     };
 
+    function noDelete() {
+        alert("Et voi poistaa tapahtumapaikkaa johon on liitetty tapahtumia!");
+    }
 
     return (
         <div className="editVenueContainer">
@@ -122,7 +151,41 @@ function EditVenue() {
                 <div className="editVenueFormBtns">
                     <button onClick={() => navigate(-1)}>Palaa takaisin</button>
                     <button onClick={handleUpdate}>Tallenna muutokset</button>
-                    <button onClick={() => handleDeleteClick(venue.venueId)}>Poista tapahtumapaikka</button>
+                    {events.length > 0 ? (
+                        <button onClick={noDelete}>Poista tapahtumapaikka</button>
+                    ) : (
+                        <button onClick={() => handleDelete(venue.venueId)}>Poista tapahtumapaikka</button>
+
+                    )}
+
+                </div>
+
+                <div className="venueEventContainer">
+                    {events.length > 0 ? (
+                        <div>
+                            <p>
+                                <b>Tapahtumapaikan tapahtumat:</b>
+                            </p>
+                            {events.map((ev, index) => {
+                                return (
+                                    <div key={index}>
+                                        {!ev.cancelled && (
+                                            <div key={ev.eventId}>
+                                                <span>
+                                                    {formatTime(ev.startTime)} {ev.venue.venueName} {" "}
+                                                </span>
+                                                <span>
+                                                    <b>{ev.eventName}</b>
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
             </div>
         </div>

@@ -62,3 +62,9 @@
 .editVenueFormBtns button:nth-child(3) {
     background-color: rgba(214, 82, 82, 0.9);
 }
+
+.venueEventContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}

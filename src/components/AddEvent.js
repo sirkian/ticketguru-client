@@ -66,8 +66,6 @@ function AddEvent({ token }) {
     }
   };
 
-  console.log(venues);
-
   //Lisää uuden tapahtuman
   const addEvent = async (e) => {
     e.preventDefault();

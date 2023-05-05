@@ -82,12 +82,11 @@ function PostalCodes({ token }) {
 
   return (
     <div className="resourcesInnerContainer">
-      <h4 onClick={() => setIsVisible(!isVisible)}>Postinumerot</h4>
+      <h4 onClick={() => setIsVisible(!isVisible)}>Lisää postinumero</h4>
       <br />
       {isVisible && (
       <div className="addPC">
         <form className="addPCForm" onSubmit={postPostalCode}>
-          <label><i>Lisää uusi</i></label>
           <label>Postinumero</label>
           <input
             type="text"

@@ -14,7 +14,7 @@ h2:hover {
 .addEventForm {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 45%;
     margin: 0 auto;
     margin-bottom: 2em;
 }
