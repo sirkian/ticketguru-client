@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
 import PostalCodes from "./PostalCodes";
 import "../styles/resources.css";
+import { useNavigate } from "react-router-dom";
+import "../styles/addVenue.css";
 
 function Venues({ token }) {
   const [venues, setVenues] = useState([]);
@@ -11,10 +13,13 @@ function Venues({ token }) {
   const [venueName, setVenueName] = useState("");
   const [venueDescription, setVenueDescription] = useState("");
   const [address, setAddress] = useState("");
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchVenues();
     fetchPostalCodes();
+    // eslint-disable-next-line
   }, []);
 
   // Hakee kaikki tapahtumapaikat
@@ -86,7 +91,6 @@ function Venues({ token }) {
         setError("Virheelliset tiedot!");
       }
       if (response.status === 201) {
-        alert("Tapahtumapaikka lisätty!");
         setVenueName("");
         setVenueDescription("");
         setAddress("");
@@ -99,63 +103,77 @@ function Venues({ token }) {
     }
   };
 
+  const handleEditVenue = (ve) => {
+    navigate("/editvenue", { state: { ve, postalCodes, token } });
+  };
+
   return (
     <div className="resourcesInnerContainer">
-      <form onSubmit={postVenue}>
-        <label htmlFor="venue">Lisää tapahtumapaikka:</label>
-        <br />
-        <input
-          type="text"
-          required
-          placeholder="Tapahtumapaikan nimi"
-          value={venueName}
-          onChange={(e) => setVenueName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Kuvaus"
-          value={venueDescription}
-          onChange={(e) => setVenueDescription(e.target.value)}
-        />
-        <input
-          type="text"
-          required
-          placeholder="Katuosoite"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <select
-          value={postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
-        >
-          <option value="">Valitse postinumero</option>
-          {postalCodes.map((pc) => (
-            <option key={pc.postalCode} value={pc.postalCode}>
-              {pc.postalCode} {""} {pc.city}
-            </option>
-          ))}
-        </select>
-        <button type="submit">Lisää</button>
-      </form>
+      <h2 onClick={() => setIsVisible(!isVisible)}>Lisää tapahtumapaikka</h2>
+      {isVisible && (
+        <div className="addVenue">
+          <form className="addVenueForm" onSubmit={postVenue}>
+            <label>Tapahtumapaikan nimi</label>
+            <input
+              type="text"
+              required
+              placeholder="Tapahtumapaikan nimi"
+              value={venueName}
+              onChange={(e) => setVenueName(e.target.value)}
+            />
+            <label>Tapahtumapaikan kuvaus</label>
+            <input
+              type="text"
+              placeholder="Kuvaus"
+              value={venueDescription}
+              onChange={(e) => setVenueDescription(e.target.value)}
+            />
+            <label>Tapahtumapaikan katuosoite</label>
+            <input
+              type="text"
+              required
+              placeholder="Katuosoite"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <label>Postinumero</label>
+            <select value={postalCode} onChange={(e) => setPostalCode(e.target.value)}>
+              <option value="">Valitse postinumero</option>
+              {postalCodes.map((pc) => (
+                <option key={pc.postalCode} value={pc.postalCode}>
+                  {pc.postalCode} {""} {pc.city}
+                </option>
+              ))}
+            </select>
+            <button type="submit">Lisää</button>
+          </form>
 
-      <div>{error.length > 0 && <p>{error}</p>}</div>
-
-      <p>
-        <b>Tapahtumapaikat:</b>
-      </p>
-      {venues.map((ve) => {
-        return (
-          <div key={ve.venueId}>
-            <span>
-              {ve.venueName}, {ve.venueDescription}, {ve.address},{" "}
-              {ve.postalCode.postalCode}, {ve.postalCode.city}
-            </span>
+          <div className="showVenuesContainer">
+            <p>
+              <b>Tapahtumapaikat:</b>
+            </p>
+            {venues.map((ve) => {
+              return (
+                <div className="showVenues" key={ve.venueId}>
+                  <div className="showVenue">
+                    <span>{ve.venueName}</span>
+                    <span>{ve.venueDescription}</span>
+                    <span> {ve.address}< br />{ve.postalCode.postalCode}, {ve.postalCode.city}</span>
+                  </div>
+                  <div>
+                    <button onClick={() => handleEditVenue(ve)}>Muokkaa</button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-
-      <br />
-      <PostalCodes token={token} />
+          <div>{error.length > 0 && <p>{error}</p>}</div>
+          <div>
+            < br />
+            <PostalCodes token={token} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
