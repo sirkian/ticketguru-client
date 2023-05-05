@@ -60,18 +60,31 @@ export function Report() {
   return (
     <>
       <p>Myyntiraportti</p>
-      <p>Valitse tapahtuma</p>
-      <p>lipputyyppi / kpl / yhteensä</p>
+      <p>Valitse tapahtuma, ei vielä toteutettu</p>
+      
 
       {events.map((ev) => {
         return (
-          <div key={ev.eventId} onClick={() => fetchReport(ev.eventId)}>
+          <div key={ev.eventId} >
             <span>
-              {ev.eventName}, {ev.description}
+              {ev.eventName}, {ev.description}, {" "}
+              <button onClick={() => fetchReport(ev.eventId)}>hae raportti</button>
             </span>
           </div>
         );
       })}
+
+     {report.map((rep) => {
+        return(
+            <div key={rep.eventTicketType}>
+                <span>
+                    {rep.event} {" "} {rep.eventTicketType} {" "} {rep.total}
+                </span>
+            </div>
+        )
+        
+     })}
+
     </>
   );
 }
