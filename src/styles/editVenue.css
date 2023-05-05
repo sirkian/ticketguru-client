@@ -1,0 +1,59 @@
+.editVenueContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editVenueForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.editVenueForm h1 {
+    font-weight: lighter;
+}
+
+.editVenueInputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1em
+}
+
+.editVenueInputs input {
+    padding: 0.6em;
+    margin-bottom: 0.5em; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+}
+
+.editVenueInputs select {
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
+
+.editVenueInputs label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.editVenueFormBtns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.editVenueFormBtns button {
+    padding: 0.6em;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.editVenueFormBtns button:nth-child(2){
+    background-color: rgba(72, 189, 120, 0.6);
+}
