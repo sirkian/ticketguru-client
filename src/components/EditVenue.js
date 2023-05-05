@@ -34,15 +34,54 @@ function EditVenue() {
         try {
             const response = await fetch(`${URL}/venues/${venue.venueId}`, reqOptions);
 
-            if (response.status === 400) {
-                console.log("Virheelliset tiedot!");
-            }
-
             if (response.status === 200) navigate(-1);
         } catch (error) {
             console.log(error.message);
         }
     };
+
+    const handleDeleteClick = async (venueId) => {
+        console.log(`handleDeleteClick called with venueId: ${venueId}`);
+        try {
+          const result = await confirmDelete(venueId);
+          if (result) {
+            await deleteVenue(venueId);
+            alert("Poisto onnistui!");
+            navigate(-1);
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      
+     const confirmDelete = (venueId) => {
+        return new Promise((resolve, reject) => {
+          if (window.confirm("Haluatko varmasti poistaa tämän tapahtumapaikan?")) {
+            resolve();
+          } else {
+            reject("Poisto keskeytetty");
+          }
+        });
+      };
+
+    const deleteVenue = async (venueId) => {
+        const reqOptions = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+            },
+        };
+        try {
+            const response = await fetch(`${URL}/venues/${venueId}`, reqOptions);
+            console.log(response.status);
+            if (response.status === 200);
+        } catch (error) {
+            console.log(error.message);
+            throw error;
+        }
+    };
+
 
     return (
         <div className="editVenueContainer">
@@ -83,6 +122,7 @@ function EditVenue() {
                 <div className="editVenueFormBtns">
                     <button onClick={() => navigate(-1)}>Palaa takaisin</button>
                     <button onClick={handleUpdate}>Tallenna muutokset</button>
+                    <button onClick={() => handleDeleteClick(venue.venueId)}>Poista tapahtumapaikka</button>
                 </div>
             </div>
         </div>

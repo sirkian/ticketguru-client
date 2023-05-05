@@ -52,8 +52,13 @@
     cursor: pointer;
     border: none;
     border-radius: 3px;
+    margin-right: 0.5em;
 }
 
-.editVenueFormBtns button:nth-child(2){
+.editVenueFormBtns button:nth-child(2) {
     background-color: rgba(72, 189, 120, 0.6);
+}
+
+.editVenueFormBtns button:nth-child(3) {
+    background-color: rgba(214, 82, 82, 0.9);
 }
