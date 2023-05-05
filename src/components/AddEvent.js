@@ -45,6 +45,7 @@ function AddEvent({ token }) {
     }
   };
 
+  //Haetaan tapahtumapaikat
   const fetchVenues = async () => {
     const reqOptions = {
       method: "GET",
@@ -54,7 +55,6 @@ function AddEvent({ token }) {
       },
     };
 
-    //Haetaan tapahtumapaikat
     try {
       const response = await fetch(`${URL}/venues`, reqOptions);
       const json = await response.json();

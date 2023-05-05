@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
 import "../styles/resources.css";
+import "../styles/addPC.css";
 
 function PostalCodes({ token }) {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
   const [postalCodes, setPostalCodes] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchPostalCodes();
+    // eslint-disable-next-line
   }, []);
 
   // Hakee kaikki postinumerot
@@ -67,7 +70,6 @@ function PostalCodes({ token }) {
         setError("Postinumero on jo käytössä!");
       }
       if (response.status === 201) {
-        alert("Postinumero lisätty!");
         setPostalCode("");
         setCity("");
         setError("");
@@ -79,41 +81,47 @@ function PostalCodes({ token }) {
   };
 
   return (
-    <div>
-      <form onSubmit={postPostalCode}>
-        <label htmlFor="postalcode">Lisää puuttuva postinumero:</label>
-        <br />
-        <input
-          type="text"
-          required
-          placeholder="Postinumero"
-          value={postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
-        />
-        <input
-          type="text"
-          required
-          placeholder="Kaupunki"
-          value={city}
-          onChange={(e) => setCity(e.target.value.toUpperCase())}
-        />
-        <button type="submit">Lisää</button>
-      </form>
+    <div className="resourcesInnerContainer">
+      <h4 onClick={() => setIsVisible(!isVisible)}>Postinumerot</h4>
+      <br />
+      {isVisible && (
+      <div className="addPC">
+        <form className="addPCForm" onSubmit={postPostalCode}>
+          <label><i>Lisää uusi</i></label>
+          <label>Postinumero</label>
+          <input
+            type="text"
+            required
+            placeholder="Postinumero"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+          />
+          <label>Kaupunki</label>
+          <input
+            type="text"
+            required
+            placeholder="Kaupunki"
+            value={city}
+            onChange={(e) => setCity(e.target.value.toUpperCase())}
+          />
+          <button type="submit">Lisää</button>
+        </form>
 
-      <div>{error.length > 0 && <p>{error}</p>}</div>
-
-      <p>
-        <b>Postinumerot:</b>
-      </p>
-      {postalCodes.map((pc) => {
-        return (
-          <div key={pc.postalCode}>
-            <span>
-              {pc.postalCode} {""} {pc.city}
-            </span>
-          </div>
-        );
-      })}
+        <div className="showPCsContainer">
+          <p>
+            <b>Postinumerot:</b>
+          </p>
+          {postalCodes.map((pc) => {
+            return (
+              <div className="showPCs" key={pc.postalCode}>
+                   <li>{pc.postalCode} {""} {pc.city}</li>
+              </div>
+            );
+          })}
+        </div>
+        <div>{error.length > 0 && <p>{error}</p>}</div>
+      </div>
+       )}
     </div>
   );
 }

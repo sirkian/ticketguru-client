@@ -16,8 +16,8 @@ export function Resources() {
   return (
     <div className="resourcesContainer">
       <AddEvent token={currentUser.token} />
-      <TicketTypes token={currentUser.token} />
       <Venues token={currentUser.token} />
+      <TicketTypes token={currentUser.token} />
       <EventTicketTypes token={currentUser.token} />
     </div>
   );
