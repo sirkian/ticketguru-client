@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
 import { connect, useSelector } from "react-redux";
 import Login from "./Login";
+import "../styles/getReport.css";
 
 export function Report() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -49,6 +50,7 @@ export function Report() {
       const json = await response.json();
 
       setReport(json);
+     
       setError("");
     } catch (error) {
       setError(error.message);
@@ -56,35 +58,56 @@ export function Report() {
   };
 
   console.log(report);
+  console.log(event);
+
   if (!isLoggedIn) return <Login />;
   return (
     <>
-      <p>Myyntiraportti</p>
-      <p>Valitse tapahtuma, ei vielä toteutettu</p>
-      
-
-      {events.map((ev) => {
-        return (
-          <div key={ev.eventId} >
-            <span>
-              {ev.eventName}, {ev.description}, {" "}
-              <button onClick={() => fetchReport(ev.eventId)}>hae raportti</button>
-            </span>
-          </div>
-        );
-      })}
-
-     {report.map((rep) => {
-        return(
-            <div key={rep.eventTicketType}>
-                <span>
-                    {rep.event} {" "} {rep.eventTicketType} {" "} {rep.total}
-                </span>
+        <div className = "reportContainer">
+            <div className = "reportHeading">
+                <p><b>Myyntiraportti</b></p>
             </div>
-        )
+            
+            {events.map((ev) => {
+                return (        
+                    <div className="events" key={ev.eventId} >   
+                        <div className = "description">
+                            {ev.eventName} {ev.description} {" "}
+                        </div>
+                        <div className = "button">
+                            <button onClick={() => fetchReport(ev.eventId)}>hae raportti</button>
+                        </div>    
+                    </div>
+                );
+            })}
+            
+            
+            {report.length > 0 && (
+            <table className="table">
+                <caption><b>{report[0].event}</b></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Lipputyyppi</th>
+                        <th>Myyntimäärä kpl</th>
+                        <th>Kappalehinta €</th>
+                        <th>Kokonaismyynti €</th>
+                    </tr>
+                </thead>
+            {report.map((rep) => {
+                return(  
+                    <tr key={rep.eventTicketType}>
+                        <td>{rep.eventTicketType}</td>
+                        <td>{rep.amountSoldTickets}</td>
+                        <td>{rep.price}</td>
+                        <td>{rep.total}</td>
+                    </tr>  
+                )
+                
+            })}
+            </table>
+            )}
+        </div>
         
-     })}
-
     </>
   );
 }

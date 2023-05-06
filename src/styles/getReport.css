@@ -1,0 +1,30 @@
+.reportContainer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+    
+}
+.reportHeading {
+    padding: 1em;
+}
+.events {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: space-between;
+    margin: 1%;
+   
+}
+.description {
+    padding-right: 30px;
+}
+
+.button {
+    padding-left: 10px;
+    
+}
+.table {
+    display: block;
+    text-align: center;
+}

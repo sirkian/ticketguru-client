@@ -34,7 +34,7 @@ export function Navbar() {
               (item) => item.authority === "ADMIN"
             ) && (
               <li>
-                <Link to="resources">Lisää resursseja</Link>
+                <Link to="resources">Resurssien hallinta</Link>
               </li>
             )}
 
