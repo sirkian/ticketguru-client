@@ -93,9 +93,10 @@ export function Report() {
                         <th>Kokonaismyynti €</th>
                     </tr>
                 </thead>
-            {report.map((rep) => {
+                <tbody>
+            {report.map((rep, index) => {
                 return(  
-                    <tr key={rep.eventTicketType}>
+                    <tr key={index}>
                         <td>{rep.eventTicketType}</td>
                         <td>{rep.amountSoldTickets}</td>
                         <td>{rep.price}</td>
@@ -104,6 +105,7 @@ export function Report() {
                 )
                 
             })}
+            </tbody>
             </table>
             )}
         </div>

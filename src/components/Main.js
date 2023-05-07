@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { addToCart, calculateTotalPrice } from "../store/Reducer";
 import { formatPrice, formatTime } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 import { URL } from "../utils/constants";
 import "../styles/main.css";
 import Login from "./Login";
@@ -11,6 +12,9 @@ export function Main(props) {
   const [eventtickets, setEventtickets] = useState([]);
   const [error, setError] = useState("Ladataan tapahtumia");
   const [ticketsLeft, setTicketsLeft] = useState(0);
+  const [transaction, setTransaction] = useState([]);
+  const [ticket, setTicket] = useState([]);
+  const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user.user);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   // currentUser.authorities.some((item) => item.authority === "ADMIN")
@@ -165,6 +169,73 @@ export function Main(props) {
     }
   };
 
+  // Tulostetaan kaikki myymättömät liput
+  const fetchTransaction = async (transactionId) => {
+    const reqOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: currentUser.token,
+      },
+    };
+    try {
+      const response = await fetch(
+        `${URL}/transactions/${transactionId}/tickets`,
+        reqOptions
+      );
+      const transactionProp = await response.json();
+      navigate("/print", { state: transactionProp });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSellTickets = async (eventTypeId) => {
+    const reqOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: currentUser.token,
+      },
+      body: JSON.stringify({ total: 0, appUser: { userId: 1 } }),
+    };
+    try {
+      const response = await fetch(`${URL}/transactions`, reqOptions);
+      const json = await response.json();
+      const transactionId = await json.transactionId;
+      for (let i = 0; i < ticketsLeft; i++) {
+        printTickets(transactionId, eventTypeId);
+      }
+      // Laitetaan vielä 1,5sek timeout, että varmasti kaikki liput ehtii mukaan
+      setTimeout(() => {
+        fetchTransaction(transactionId);
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const printTickets = async (transactionId, eventTypeId) => {
+    const reqOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: currentUser.token,
+      },
+      body: JSON.stringify({
+        usedDate: null,
+        eventTicketType: { eventTypeId: eventTypeId },
+        transaction: { transactionId },
+      }),
+    };
+    try {
+      console.log("lol");
+      const response = await fetch(`${URL}/tickets`, reqOptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const dispatch = useDispatch();
 
   const handleAddToCart = (ticket) => {
@@ -238,6 +309,7 @@ export function Main(props) {
                       <span>
                         <b>{ev.eventName}</b>
                       </span>
+
                     </div>
                   )}
                 </div>
@@ -250,7 +322,11 @@ export function Main(props) {
 
         {eventtickets.length > 0 && (
           <div className="eventtickets">
-            <p>
+            {ticketsLeft < 1 ? (
+              <p>Tapahtuma <b>{eventtickets[0].event.eventName}</b> on loppuunmyyty!</p>
+            ) : (
+              <>
+              <p>
               <b>Valitse lippu</b>
             </p>
             <h2>{eventtickets[0].event.eventName}</h2>
@@ -262,17 +338,29 @@ export function Main(props) {
                     <span>{evt.ticketType.typeName}</span>
                     <div>
                       <span>{formatPrice(evt.price)}</span>
-                      <button
-                        className="addBtn"
-                        onClick={() => handleAddToCart(evt)}
-                      >
-                        Lisää
-                      </button>
+
+                      {evt.ticketType.typeName === "Ovilippu" ? (
+                        <button
+                          className="addBtn"
+                          onClick={() => handleSellTickets(evt.eventTypeId)}
+                        >
+                          Tulosta kaikki
+                        </button>
+                      ) : (
+                        <button
+                          className="addBtn"
+                          onClick={() => handleAddToCart(evt)}
+                        >
+                          Lisää
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
               );
             })}
+            </>)}
+
           </div>
         )}
 
