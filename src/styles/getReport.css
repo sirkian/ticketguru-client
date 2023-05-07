@@ -8,7 +8,7 @@
 .reportHeading {
     padding: 1em;
 }
-.events {
+.eventsReport {
     display: flex;
     flex-direction: row;
     width: 80%;

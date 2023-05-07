@@ -70,7 +70,7 @@ export function Report() {
             
             {events.map((ev) => {
                 return (        
-                    <div className="events" key={ev.eventId} >   
+                    <div className="eventsReport" key={ev.eventId} >   
                         <div className = "description">
                             {ev.eventName} {ev.description} {" "}
                         </div>
