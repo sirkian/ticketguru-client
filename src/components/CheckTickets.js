@@ -81,7 +81,6 @@ export function CheckTickets() {
           <label>Lipun tarkastuskoodi:</label>
           <input
             maxLength={8}
-            className="codeInput"
             type="text"
             placeholder="Tarkastuskoodi"
             onChange={(e) => setVCode(e.target.value)}
@@ -94,38 +93,42 @@ export function CheckTickets() {
         </div>
 
 
-        
+
         {ticket !== null && (
           <div className="transactionContainer">
-          <div className="ticket">
-            <p>
-              <b>ID:</b> {ticket.ticketId}
-            </p>
-            <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`} />
-            <div>
-            <p>
-              <b>TAPAHTUMA:</b> {ticket.eventTicketType.event.eventName},{" "}
-              {formatTime(ticket.eventTicketType.event.startTime)}
-            </p>
-            <p>
-              <b>LIPPUTYYPPI:</b> {ticket.eventTicketType.ticketType.typeName}
-            </p>
-            <p>
-              <b>HINTA:</b> {formatPrice(ticket.eventTicketType.price)}
-            </p>
-            <br />
+            <div className="ticket">
+              <div className="ticketInfo">
+                <span>
+                  <b>ID:</b> {ticket.ticketId}
+                </span>
+                <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`} />
+                <div>
+                  <p>
+                    <b>TAPAHTUMA:</b> {ticket.eventTicketType.event.eventName}<br />
+                    {formatTime(ticket.eventTicketType.event.startTime)}
+                  </p>
+                  <p>
+                    <b>LIPPUTYYPPI:</b> {ticket.eventTicketType.ticketType.typeName}
+                  </p>
+                  <p>
+                    <b>HINTA:</b> {formatPrice(ticket.eventTicketType.price)}
+                  </p>
+                  <br />
+                </div>
+              </div>
             </div>
-            <button className="useBtn" onClick={handleUseTicket}>
-              Käytä lippu
-            </button>
-            <button className="cancelBtn" onClick={handleClearTicket}>
-              Peruuta
-            </button>
-          </div>
+            <div className="transactionBtns">
+              <button onClick={handleUseTicket}>
+                Käytä lippu
+              </button>
+              <button onClick={handleClearTicket}>
+                Peruuta
+              </button>
+            </div>
           </div>
         )}
         {error.length > 0 && <p>{error}</p>}
-        
+
 
       </div>
     </div>
