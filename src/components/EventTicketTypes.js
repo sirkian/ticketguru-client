@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 import "../styles/resources.css";
 
 function EventTicketTypes({ token }) {
@@ -10,6 +11,7 @@ function EventTicketTypes({ token }) {
   const [ticketType, setTicketType] = useState("");
   const [price, setPrice] = useState(0);
   const [eventTicketTypes, setEventTicketTypes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -61,7 +63,9 @@ function EventTicketTypes({ token }) {
   };
 
   // tapahtuman lipputyyppien haku
-  const fetchEventTicketTypes = async () => {
+  const fetchEventTicketTypes = async (e) => {
+    e.preventDefault();
+    console.log("lipputyypithaku");
     const reqOptions = {
       method: "GET",
       headers: {
@@ -82,6 +86,15 @@ function EventTicketTypes({ token }) {
     } catch (error) {
       setError(error.message);
     }
+  };
+
+  console.log(eventTicketTypes);
+
+  const handleEditTicketTypes = (evtt) => {
+    console.log("navigointiin");
+    console.log(evtt);
+    navigate("/editETT", { state: {token, evtt}});
+    //navigate("/editett");
   };
 
   // lipputyyppien ja hintojen asettaminen tapahtumalle
@@ -124,8 +137,11 @@ function EventTicketTypes({ token }) {
         <b>Tapahtuman lipputyypit</b>
       </p>
 
-      <form onSubmit={addTicketTypes}>
-        <select value={event} onChange={(e) => setEvent(e.target.value)}>
+
+      {/*lisätään uusi lippu, muokkaus navigoi toiselle sivulle */}
+      <br></br><br></br>
+      <form onSubmit={fetchEventTicketTypes}>
+      <select value={event} onChange={(e) => setEvent(e.target.value)}>
           <option value="">Valitse tapahtuma</option>
           {events.map((ev) => (
             <option key={ev.eventId} value={ev.eventId}>
@@ -133,6 +149,8 @@ function EventTicketTypes({ token }) {
             </option>
           ))}
         </select>
+
+            <button type="submit">Hae tiedot</button> <br></br><br></br>
         <select
           value={ticketType}
           onChange={(e) => setTicketType(e.target.value)}
@@ -152,8 +170,29 @@ function EventTicketTypes({ token }) {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         ></input>
-        €<button type="submit">Lisää</button>
+        €<button onClick={addTicketTypes}>Lisää uusi lipputyyppi</button>
       </form>
+
+
+      {eventTicketTypes.length > 0 && (
+        <div>
+          {eventTicketTypes.map((evtt) => {
+            return(
+            <div className="eventTicketTypescont" key={evtt.eventTypeId}>
+              <div >
+                {evtt.ticketType.typeName} {" "} {evtt.price} {"€"}
+              </div>
+              <div>
+                
+                <button onClick={() => handleEditTicketTypes(evtt)}>Muokkaa</button>
+                
+              </div>
+            </div>
+            );
+          })}   
+        </div>
+      )}
+
     </div>
   );
 }
