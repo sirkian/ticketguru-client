@@ -1,34 +1,51 @@
-.ticket {
-    max-width: 30em;
-    border: 1px solid grey;
-    border-radius: 5px;
+.checkTicketContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkTicketForm {
     display: flex;
     flex-direction: column;
+}
+
+.checkTicketForm h1 {
+    font-weight: lighter;
+    margin: 0 auto;
+}
+
+.checkTicketInputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1em
+}
+
+.checkTicketInputs input {
+    padding: 0.6em;
+    margin-bottom: 0.5em; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+    width: 8em;
+    margin: 0 auto;
+}
+
+.checkTicketInputs label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.checkTicketFormBtns {
+    display: flex;
     align-items: center;
+    justify-content: space-around;
+    margin-bottom: 2em;
 }
 
-.useBtn {
-    margin-bottom: 1em;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2em;
+.checkTicketFormBtns button {
     padding: 0.5em;
-    border-radius: 3px;
-    color: green;
-}
-
-.cancelBtn {
-    margin-bottom: 1em;
-    border: none;
     cursor: pointer;
-    font-size: 1.2em;
-    padding: 0.5em;
+    border: none;
     border-radius: 3px;
-    color: red;
-}
-
-.codeInput {
-    font-size: medium;
-    width: 110px;
-    margin-bottom: 1em;
+    background-color: rgba(72, 189, 120, 0.6);
 }

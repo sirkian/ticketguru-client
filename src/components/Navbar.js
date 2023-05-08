@@ -21,7 +21,7 @@ export function Navbar() {
     }
   }, []);
 
-  console.log(currentUser);
+  //console.log(currentUser);
   return (
     <div className="navContainer">
       {isLoggedIn && (

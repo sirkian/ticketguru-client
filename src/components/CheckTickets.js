@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { URL } from "../utils/constants";
 import { formatPrice, formatTime } from "../utils/utils";
 import "../styles/checkTickets.css";
+import "../styles/transaction.css";
 import { connect, useSelector } from "react-redux";
 import Login from "./Login";
 
@@ -73,47 +74,60 @@ export function CheckTickets() {
 
   if (!isLoggedIn) return <Login />;
   return (
-    <div>
-      <h3>TicketGuru: Lipun tarkastus</h3>
-      <p>Lipun tarkastuskoodi:</p>
-      <input
-        maxLength={8}
-        className="codeInput"
-        type="text"
-        placeholder="Tarkastuskoodi"
-        onChange={(e) => setVCode(e.target.value)}
-      />
-      <br />
-      <button className="useBtn" onClick={handleFindTicket}>
-        Tarkista
-      </button>
-
-      {ticket !== null && (
-        <div className="ticket">
-          <p>
-            <b>ID:</b> {ticket.ticketId}
-          </p>
-          <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`} />
-          <p>
-            <b>TAPAHTUMA:</b> {ticket.eventTicketType.event.eventName},{" "}
-            {formatTime(ticket.eventTicketType.event.startTime)}
-          </p>
-          <p>
-            <b>LIPPUTYYPPI:</b> {ticket.eventTicketType.ticketType.typeName}
-          </p>
-          <p>
-            <b>HINTA:</b> {formatPrice(ticket.eventTicketType.price)}
-          </p>
-          <br />
-          <button className="useBtn" onClick={handleUseTicket}>
-            Käytä lippu
-          </button>
-          <button className="cancelBtn" onClick={handleClearTicket}>
-            Peruuta
+    <div className="checkTicketContainer">
+      <div className="checkTicketForm">
+        <h1>Tarkista lippu</h1>
+        <div className="checkTicketInputs">
+          <label>Lipun tarkastuskoodi:</label>
+          <input
+            maxLength={8}
+            className="codeInput"
+            type="text"
+            placeholder="Tarkastuskoodi"
+            onChange={(e) => setVCode(e.target.value)}
+          />
+        </div>
+        <div className="checkTicketFormBtns">
+          <button onClick={handleFindTicket}>
+            Tarkista
           </button>
         </div>
-      )}
-      {error.length > 0 && <p>{error}</p>}
+
+
+        
+        {ticket !== null && (
+          <div className="transactionContainer">
+          <div className="ticket">
+            <p>
+              <b>ID:</b> {ticket.ticketId}
+            </p>
+            <img alt="qr-code" src={`data:image/png;base64,${ticket.qrCode}`} />
+            <div>
+            <p>
+              <b>TAPAHTUMA:</b> {ticket.eventTicketType.event.eventName},{" "}
+              {formatTime(ticket.eventTicketType.event.startTime)}
+            </p>
+            <p>
+              <b>LIPPUTYYPPI:</b> {ticket.eventTicketType.ticketType.typeName}
+            </p>
+            <p>
+              <b>HINTA:</b> {formatPrice(ticket.eventTicketType.price)}
+            </p>
+            <br />
+            </div>
+            <button className="useBtn" onClick={handleUseTicket}>
+              Käytä lippu
+            </button>
+            <button className="cancelBtn" onClick={handleClearTicket}>
+              Peruuta
+            </button>
+          </div>
+          </div>
+        )}
+        {error.length > 0 && <p>{error}</p>}
+        
+
+      </div>
     </div>
   );
 }

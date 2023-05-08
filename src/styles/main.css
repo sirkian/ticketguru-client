@@ -4,7 +4,7 @@
 }
 
 .events {
-    width: 20vw;
+    max-width: 40em;
     margin: 5em 0 3em 0;
 }
 

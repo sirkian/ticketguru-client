@@ -57,8 +57,8 @@ export function Report() {
     }
   };
 
-  console.log(report);
-  console.log(event);
+  // console.log(report);
+  // console.log(event);
 
   if (!isLoggedIn) return <Login />;
   return (
