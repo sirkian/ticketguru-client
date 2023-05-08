@@ -68,6 +68,8 @@ export function Report() {
                 <p><b>Myyntiraportti</b></p>
             </div>
             
+           {events.length > 0 ? (
+            <>
             {events.map((ev) => {
                 return (        
                     <div className="eventsReport" key={ev.eventId} >   
@@ -80,14 +82,18 @@ export function Report() {
                     </div>
                 );
             })}
-            
+                </>
+            ) : (
+            <div>Tapahtumia ei löytynyt</div>
+            )}
+
             
             {report.length > 0 && (
             <table className="table">
                 <caption><b>{report[0].event}</b></caption>
                 <thead>
                     <tr>
-                        <th scope="col">Lipputyyppi</th>
+                        <th>Lipputyyppi</th>
                         <th>Myyntimäärä kpl</th>
                         <th>Kappalehinta €</th>
                         <th>Kokonaismyynti €</th>
