@@ -14,6 +14,7 @@ const PrintTickets = () => {
           <p>{ticket.verificationCode}</p>
           <div className="ticketInfo">
             <p>{ticket.eventTicketType.event.eventName}</p>
+            <p>{formatTime(ticket.eventTicketType.event.startTime)}</p>
             <p>
               {ticket.eventTicketType.ticketType.typeName}{" "}
               {formatPrice(ticket.eventTicketType.price)}
