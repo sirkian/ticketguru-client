@@ -20,10 +20,27 @@
     padding-right: 30px;
 }
 
-.button {
-    padding-left: 10px;
-    
+
+.eventsReport button {
+    padding: 0.5em;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background-color: rgba(72, 189, 120, 0.6);  
+    }
+
+.eventsReport button:hover {
+
+background-color: rgba(60, 157, 102, 0.6);
+
 }
+
+.eventsReport button:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
+}
+    
+
 .table {
     display: block;
     text-align: center;
