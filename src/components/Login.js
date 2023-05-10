@@ -67,7 +67,14 @@ export const Login = (props) => {
         // Tallennetaan käyttäjä myös localStorageen
         // Nyt voi hakata f5 eikä kirjaudu ulos enää
         localStorage.setItem("user", JSON.stringify(json));
-        navigate("/");
+        // Jos lipuntarkastajan rooli, näytetään suoraan vain lipuntarkastuksen näkymä
+        if (
+          json.authorities.some((item) => item.authority === "TICKET_INSPECTOR")
+        ) {
+          navigate("/tickets");
+        } else {
+          navigate("/");
+        }
       } else {
         setError("Väärä email tai salasana!");
       }

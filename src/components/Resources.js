@@ -6,21 +6,25 @@ import EventTicketTypes from "./EventTicketTypes";
 import { connect, useSelector } from "react-redux";
 import "../styles/resources.css";
 import Login from "./Login";
+import Error from "./Error";
 
 export function Resources() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const currentUser = useSelector((state) => state.user.user);
 
   if (!isLoggedIn) return <Login />;
-
-  return (
-    <div className="resourcesContainer">
-      <AddEvent token={currentUser.token} />
-      <Venues token={currentUser.token} />
-      <TicketTypes token={currentUser.token} />
-      <EventTicketTypes token={currentUser.token} />
-    </div>
-  );
+  if (currentUser.authorities.some((item) => item.authority === "ADMIN")) {
+    return (
+      <div className="resourcesContainer">
+        <AddEvent token={currentUser.token} />
+        <Venues token={currentUser.token} />
+        <TicketTypes token={currentUser.token} />
+        <EventTicketTypes token={currentUser.token} />
+      </div>
+    );
+  } else {
+    return <Error code={403} message={"Vaaditaan ADMIN-rooli!"} />;
+  }
 }
 
 export default connect()(Resources);
