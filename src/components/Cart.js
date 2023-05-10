@@ -50,15 +50,16 @@ export function Cart(props) {
   };
 
   const handleSellTickets = async () => {
-    // TODO:
-    // appUser: kovakoodattu => currentUser
     const reqOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: currentUser.token,
       },
-      body: JSON.stringify({ total: totalPrice, appUser: { userId: 1 } }),
+      body: JSON.stringify({
+        total: totalPrice,
+        appUser: { userId: currentUser.userId },
+      }),
     };
     try {
       const response = await fetch(`${URL}/transactions`, reqOptions);
