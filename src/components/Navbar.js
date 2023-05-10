@@ -9,6 +9,8 @@ export function Navbar() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  let admin = false;
+  let clerk = false;
 
   useEffect(() => {
     // Navbar renderöidään aina kun sivu päivitetään,
@@ -21,17 +23,26 @@ export function Navbar() {
     }
   }, []);
 
+  if (isLoggedIn) {
+    if (currentUser.authorities.some((item) => item.authority === "ADMIN")) {
+      admin = true;
+    }
+    if (currentUser.authorities.some((item) => item.authority === "CLERK")) {
+      clerk = true;
+    }
+  }
+
   return (
     <div className="navContainer">
       {isLoggedIn && (
         <div className="navLinks">
           <ul>
-            <li>
-              <Link to="/">Etusivu</Link>
-            </li>
-            {currentUser.authorities.some(
-              (item) => item.authority === "ADMIN"
-            ) && (
+            {clerk && (
+              <li>
+                <Link to="/">Etusivu</Link>
+              </li>
+            )}
+            {admin && (
               <li>
                 <Link to="resources">Resurssien hallinta</Link>
               </li>
@@ -40,9 +51,11 @@ export function Navbar() {
             <li>
               <Link to="tickets">Tsekkaa lippu</Link>
             </li>
-            <li>
-              <Link to="report">Raportti</Link>
-            </li>
+            {admin && (
+              <li>
+                <Link to="report">Raportti</Link>
+              </li>
+            )}
           </ul>
           <User />
         </div>
