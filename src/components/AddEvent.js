@@ -4,16 +4,17 @@ import "../styles/resources.css";
 import { formatTime } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import "../styles/addEvent.css";
+import { validateEvent } from "../utils/Validate";
 
 function AddEvent({ token }) {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
   const [eventName, setEventName] = useState("");
   const [description, setDescription] = useState([]);
-  const [starttime, setStarttime] = useState("");
-  const [endtime, setEndtime] = useState("");
+  const [startTime, setStarttime] = useState("");
+  const [endTime, setEndtime] = useState("");
   const [amountTickets, setAmountTickets] = useState("");
-  const [presale_ends, setPresale_ends] = useState("");
+  const [presaleEnds, setPresale_ends] = useState("");
   const [venue, setVenue] = useState("");
   const [venues, setVenues] = useState([]);
   const navigate = useNavigate();
@@ -69,6 +70,20 @@ function AddEvent({ token }) {
   //Lisää uuden tapahtuman
   const addEvent = async (e) => {
     e.preventDefault();
+    // Validoidaan kentät kutsumalla Validate.js filun validateEventtiä
+    // Jos validointi ok, palauttaa {true, ""}, jos ei ok palauttaa {false, "errorviesti"}
+    const { valid, message } = validateEvent({
+      eventName,
+      description,
+      startTime,
+      endTime,
+      amountTickets,
+      presaleEnds,
+    });
+    if (!valid) {
+      return setError(message);
+    }
+
     try {
       const reqOptions = {
         method: "POST",
@@ -79,10 +94,10 @@ function AddEvent({ token }) {
         body: JSON.stringify({
           eventName: eventName,
           description: description,
-          startTime: starttime,
-          endTime: endtime,
+          startTime: startTime,
+          endTime: endTime,
           amountTickets: amountTickets,
-          presaleEnds: presale_ends,
+          presaleEnds: presaleEnds,
           cancelled: false,
           venue: {
             venueId: venue,
@@ -141,7 +156,7 @@ function AddEvent({ token }) {
               type="datetime-local"
               required
               placeholder="Alkuaika"
-              value={starttime}
+              value={startTime}
               onChange={(e) => setStarttime(e.target.value)}
             />
             <label>Tapahtuma päättyy</label>
@@ -149,7 +164,7 @@ function AddEvent({ token }) {
               type="datetime-local"
               required
               placeholder="Loppuaika"
-              value={endtime}
+              value={endTime}
               onChange={(e) => setEndtime(e.target.value)}
             />
             <label>Lippujen määrä</label>
@@ -165,7 +180,7 @@ function AddEvent({ token }) {
               type="datetime-local"
               required
               placeholder="Lipunmyynti päättyy"
-              value={presale_ends}
+              value={presaleEnds}
               onChange={(e) => setPresale_ends(e.target.value)}
             />
             <label>Tapahtumapaikka</label>
@@ -178,6 +193,7 @@ function AddEvent({ token }) {
               ))}
             </select>
             <button type="submit">Lisää</button>
+            <div>{error.length > 0 && <p>{error}</p>}</div>
           </form>
 
           <div className="showEventsContainer">
@@ -208,7 +224,6 @@ function AddEvent({ token }) {
               );
             })}
           </div>
-          <div>{error.length > 0 && <p>{error}</p>}</div>
         </div>
       )}
     </div>

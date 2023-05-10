@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { URL } from "../utils/constants";
 import "../styles/editEvent.css";
+import { validateEvent } from "../utils/Validate";
 
 function EditEvent() {
   const navigate = useNavigate();
@@ -10,12 +11,19 @@ function EditEvent() {
   const token = location.state.token;
   const [event, setEvent] = useState(location.state.ev);
   const [venue, setVenue] = useState(event.venue.venueId);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setEvent({ ...event, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = async () => {
+    // Validoidaan kentät kutsumalla Validate.js filun validateEventtiä
+    // Jos validointi ok, palauttaa {true, ""}, jos ei ok palauttaa {false, "errorviesti"}
+    const { valid, message } = validateEvent(event);
+    if (!valid) {
+      return setError(message);
+    }
     const reqOptions = {
       method: "PUT",
       headers: {
@@ -36,8 +44,6 @@ function EditEvent() {
       }),
     };
     try {
-      console.log(reqOptions.body);
-      console.log(venue);
       const response = await fetch(
         `${URL}/events/${event.eventId}`,
         reqOptions
@@ -57,6 +63,7 @@ function EditEvent() {
           <input
             type="text"
             name="eventName"
+            required
             value={event.eventName}
             onChange={(e) => handleChange(e)}
           />
@@ -64,6 +71,7 @@ function EditEvent() {
           <input
             type="text"
             name="description"
+            required
             value={event.description}
             onChange={(e) => handleChange(e)}
           />
@@ -71,6 +79,7 @@ function EditEvent() {
           <input
             type="datetime-local"
             name="startTime"
+            required
             value={event.startTime}
             onChange={(e) => handleChange(e)}
           />
@@ -78,6 +87,7 @@ function EditEvent() {
           <input
             type="datetime-local"
             name="endTime"
+            required
             value={event.endTime}
             onChange={(e) => handleChange(e)}
           />
@@ -85,6 +95,7 @@ function EditEvent() {
           <input
             type="number"
             name="amountTickets"
+            required
             value={event.amountTickets}
             onChange={(e) => handleChange(e)}
           />
@@ -92,6 +103,7 @@ function EditEvent() {
           <input
             type="datetime-local"
             name="presaleEnds"
+            required
             value={event.presaleEnds}
             onChange={(e) => handleChange(e)}
           />
@@ -118,6 +130,7 @@ function EditEvent() {
           <button onClick={() => navigate(-1)}>Palaa takaisin</button>
           <button onClick={handleUpdate}>Tallenna muutokset</button>
         </div>
+        {error.length > 0 && <span>{error}</span>}
       </div>
     </div>
   );
