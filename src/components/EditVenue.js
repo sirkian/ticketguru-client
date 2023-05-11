@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { URL } from "../utils/constants";
 import "../styles/editVenue.css";
-
+import { validateVenue } from "../utils/Validate";
 import { formatTime } from "../utils/utils";
 
 function EditVenue() {
@@ -13,7 +13,7 @@ function EditVenue() {
     const [venue, setVenue] = useState(location.state.ve);
     const [postalCode, setPostalCode] = useState(venue.postalCode.postalCode);
     const [events, setEvents] = useState([]);
-    const [error, setError] = useState("Ladataan tapahtumia");
+    const [error, setError] = useState("");
 
     const handleChange = (e) => {
         setVenue({ ...venue, [e.target.name]: e.target.value });
@@ -21,10 +21,18 @@ function EditVenue() {
 
     useEffect(() => {
         fetchVenuesEvents(venue.venueId);
+        // eslint-disable-next-line
     }, []);
 
     // Tapahtumapaikan muutokset
     const handleUpdate = async () => {
+
+        // Validoidaan kentät
+        const {valid, message} = validateVenue(venue);
+        if(!valid) {
+            return setError(message);
+        }
+
         const reqOptions = {
             method: "PUT",
             headers: {
@@ -51,7 +59,6 @@ function EditVenue() {
 
     // Poiston käsittely
     const handleDelete = async (venueId) => {
-        // console.log(`handleDelete called with venueId: ${venueId}`);
         try {
             if (window.confirm("Haluatko varmasti poistaa tämän tapahtumapaikan?")) {
                 await deleteVenue(venueId);
@@ -187,6 +194,7 @@ function EditVenue() {
                         <div></div>
                     )}
                 </div>
+                {error.length > 0 && <span>{error}</span>}
             </div>
         </div>
     );

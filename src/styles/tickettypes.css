@@ -1,0 +1,56 @@
+h2 {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+h2:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.addTicketTypeForm {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 2em;
+}
+
+.addTicketTypeForm input {
+    padding: 0.6em;
+    margin-bottom: 0.8em;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+}
+
+.addTicketTypeForm label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.addTicketTypeForm button {
+    background-color: rgba(72, 189, 120, 0.6);
+    border: none;
+    padding: 0.6em;
+    border-radius: 3px;
+}
+
+.addTicketTypeForm button:hover {
+    cursor: pointer;
+    background-color: rgba(72, 189, 120, 0.9);
+}
+
+.showTicketTypesContainer {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.showTicketTypes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

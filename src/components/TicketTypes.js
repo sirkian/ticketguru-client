@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
 import { validateTicketType } from "../utils/Validate";
+import "../styles/tickettypes.css";
 
 function TicketTypes({ token }) {
   const [ticketTypes, setTicketTypes] = useState([]);
   const [error, setError] = useState("");
   const [typeName, setTypeName] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchTicketTypes();
@@ -41,7 +43,7 @@ function TicketTypes({ token }) {
     e.preventDefault();
 
     // Validoidaan lipputyypin nimi
-    const {valid, message} = validateTicketType({
+    const { valid, message } = validateTicketType({
       typeName,
     });
     if (!valid) {
@@ -77,31 +79,36 @@ function TicketTypes({ token }) {
 
   return (
     <div className="resourcesInnerContainer">
-      <p>
-        <b>Lipputyypit</b>
-      </p>
-      {ticketTypes.map((tt) => {
-        return (
-          <div key={tt.typeId}>
-            <span>{tt.typeName}</span>
-          </div>
-        );
-      })}
-      <br></br>
-      <b>Lisää lipputyyppi</b>
-      <form onSubmit={addTicketType}>
-        <input
-          type="text"
-          placeholder="lipputyyppi"
-          value={typeName}
-          onChange={(e) => setTypeName(e.target.value)}
-        ></input>
-        <button type="submit">Lisää</button>
-      </form>
+      <h2 onClick={() => setIsVisible(!isVisible)}>Lipputyyppi</h2>
+      {isVisible && (
+        <div className="addTicketType">
+          <form className="addTicketTypeForm" onSubmit={addTicketType}>
+            <label>Lipputyypin nimi</label>
+            <input
+              type="text"
+              required
+              placeholder="Lipputyyppi"
+              value={typeName}
+              onChange={(e) => setTypeName(e.target.value)}
+            />
+            <button type="submit">Lisää</button>
+          </form>
 
-      <div>
-        <p>{error}</p>
-      </div>
+          <div className="showTicketTypesContainer">
+            <p>
+              <b>Lipputyypit:</b>
+            </p>
+            {ticketTypes.map((tt) => {
+              return (
+                <div className="showTicketTypes" key={tt.typeId}>
+                    <li>{tt.typeName}</li>
+                </div>
+              );
+            })}
+          </div>
+          <div>{error.length > 0 && <p>{error}</p>}</div>
+        </div>
+      )}
     </div>
   );
 }

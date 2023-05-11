@@ -132,7 +132,7 @@ function AddEvent({ token }) {
 
   return (
     <div className="resourcesInnerContainer">
-      <h2 onClick={() => setIsVisible(!isVisible)}>Lisää tapahtuma</h2>
+      <h2 onClick={() => setIsVisible(!isVisible)}>Tapahtumat</h2>
       {isVisible && (
         <div className="addEvent">
           <form className="addEventForm" onSubmit={addEvent}>

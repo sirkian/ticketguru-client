@@ -124,7 +124,7 @@ function Venues({ token }) {
 
   return (
     <div className="resourcesInnerContainer">
-      <h2 onClick={() => setIsVisible(!isVisible)}>Lisää tapahtumapaikka</h2>
+      <h2 onClick={() => setIsVisible(!isVisible)}>Tapahtumapaikat</h2>
       {isVisible && (
         <div className="addVenue">
           <form className="addVenueForm" onSubmit={postVenue}>
