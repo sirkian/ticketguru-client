@@ -23,10 +23,45 @@
     padding: 1em;
 }
 
-.transactionBtns > button {
+.printTicket button {
     border: none;
     cursor: pointer;
     padding: 0.5em;
     border-radius: 3px;
     margin: 0em 0.5em 1em 0.5em;
+    background-color: rgba(72, 189, 120, 0.6);
 }
+
+.printTicket button:hover {
+
+    background-color: rgba(60, 157, 102, 0.6);
+    
+    }
+    
+    .printTicket button:active {
+        transform: scale(0.98);
+        box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
+    }
+
+.Cancel button {
+
+    border: none;
+    cursor: pointer;
+    padding: 0.5em;
+    border-radius: 3px;
+    margin: 0em 0.5em 1em 0.5em;
+    background-color: rgba(254, 97, 97, 0.6);
+
+}
+
+.Cancel button:hover {
+
+    background-color: rgba(195, 58, 58, 0.6);
+    
+    }
+.Cancel button:active {
+        transform: scale(0.98);
+        box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
+    }
+
+

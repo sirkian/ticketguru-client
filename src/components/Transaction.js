@@ -83,20 +83,23 @@ export function Transaction({ transaction, onClear }) {
       <span className="totalPrice">
         Summa: {formatPrice(transactionProp[0].transaction.total)}
       </span>
-      <div className="transactionBtns">
-        <button
+      <div className="printTicket">
+        <button 
           onClick={() =>
             handleConfirm(transactionProp[0].transaction.transactionId)
           }
         >
           Tulosta liput
         </button>
+        </div>
+        <div className="Cancel">
         <button
           onClick={() => handleCancel(transaction[0].transaction.transactionId)}
         >
           Peruuta
         </button>
-      </div>
+        </div>
+      
     </div>
   );
 }
