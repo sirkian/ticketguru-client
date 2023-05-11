@@ -1,0 +1,30 @@
+.logout button {
+    background-color: white;
+    border-radius: 6px;
+    padding: 8px 13px;
+    color: rgb(235, 15, 15);
+    border: 2px solid;
+    border-color: rgb(235, 15, 15);
+    font-weight: bold;
+    position: absolute;
+  right: 130px;
+  top: 27px;
+    
+}
+
+.logout button:hover {
+    background-color:rgb(235, 15, 15); 
+    color: rgb(255, 255, 255);
+  }
+
+.logout button:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
+}
+
+.email {
+    color: rgb(43, 179, 86);
+    position: absolute;
+    right: 260px;
+    top: 35px;
+}
