@@ -23,6 +23,7 @@ function AddEvent({ token }) {
   useEffect(() => {
     fetchEvents();
     fetchVenues();
+    // eslint-disable-next-line
   }, []);
 
   //Haetaan tapahtumat

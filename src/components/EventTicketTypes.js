@@ -16,6 +16,7 @@ function EventTicketTypes({ token }) {
   useEffect(() => {
     fetchEvents();
     fetchTicketTypes();
+    // eslint-disable-next-line
   }, []);
 
   // tapahtmien haku (valikkoon)
@@ -65,7 +66,7 @@ function EventTicketTypes({ token }) {
   // tapahtuman lipputyyppien haku
   const fetchEventTicketTypes = async (e) => {
     e.preventDefault();
-    console.log("lipputyypithaku");
+    // console.log("lipputyypithaku");
     const reqOptions = {
       method: "GET",
       headers: {
@@ -88,11 +89,11 @@ function EventTicketTypes({ token }) {
     }
   };
 
-  console.log(eventTicketTypes);
+  // console.log(eventTicketTypes);
 
   const handleEditTicketTypes = (evtt) => {
-    console.log("navigointiin");
-    console.log(evtt);
+    // console.log("navigointiin");
+    // console.log(evtt);
     navigate("/editETT", { state: {token, evtt}});
     //navigate("/editett");
   };
@@ -100,11 +101,11 @@ function EventTicketTypes({ token }) {
   // lipputyyppien ja hintojen asettaminen tapahtumalle
   const addTicketTypes = async (e) => {
     e.preventDefault();
-    console.log(event);
-    console.log(ticketType);
-    console.log(price);
+    // console.log(event);
+    // console.log(ticketType);
+    // console.log(price);
 
-    console.log("lipputyypit");
+    // console.log("lipputyypit");
 
     const reqOptions = {
       method: "POST",
@@ -190,6 +191,7 @@ function EventTicketTypes({ token }) {
             </div>
             );
           })}   
+          <div>{error.length > 0 && <p>{error}</p>}</div>
         </div>
       )}
 

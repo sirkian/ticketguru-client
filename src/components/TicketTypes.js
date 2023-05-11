@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { URL } from "../utils/constants";
+import { validateTicketType } from "../utils/Validate";
 
 function TicketTypes({ token }) {
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -8,7 +9,7 @@ function TicketTypes({ token }) {
 
   useEffect(() => {
     fetchTicketTypes();
-    //console.log(ticketTypes);
+    // eslint-disable-next-line
   }, []);
 
   // ladataan lipputyypit tietokannasta
@@ -35,9 +36,17 @@ function TicketTypes({ token }) {
   // funktio, jolla lisätään uusi lipputyyppi
 
   const addTicketType = async (e) => {
-    console.log("lipputyyppi");
-    console.log(typeName);
+    // console.log("lipputyyppi");
+    // console.log(typeName);
     e.preventDefault();
+
+    // Validoidaan lipputyypin nimi
+    const {valid, message} = validateTicketType({
+      typeName,
+    });
+    if (!valid) {
+      return setError(message);
+    }
 
     try {
       const reqOptions = {

@@ -4,6 +4,7 @@ import PostalCodes from "./PostalCodes";
 import "../styles/resources.css";
 import { useNavigate } from "react-router-dom";
 import "../styles/addVenue.css";
+import { validateVenue } from "../utils/Validate";
 
 function Venues({ token }) {
   const [venues, setVenues] = useState([]);
@@ -68,6 +69,20 @@ function Venues({ token }) {
   const postVenue = async (e) => {
     e.preventDefault();
 
+    // Validoidaan kentät
+    const {valid, message} = validateVenue({
+      venueName,
+      venueDescription,
+      address,
+      postalCode: {
+        postalCode
+      },
+    });
+
+    if (!valid) {
+      return setError(message);
+    }
+
     try {
       const reqOptions = {
         method: "POST",
@@ -87,7 +102,7 @@ function Venues({ token }) {
 
       const response = await fetch(`${URL}/venues`, reqOptions);
 
-      if (response.status === 400) {
+      if (response.status === 400 || response.status === 404) {
         setError("Virheelliset tiedot!");
       }
       if (response.status === 201) {
