@@ -117,14 +117,17 @@ export function CheckTickets() {
                 </div>
               </div>
             </div>
-            <div className="transactionBtns">
+            <div className="printTicket">
               <button onClick={handleUseTicket}>
                 Käytä lippu
               </button>
+              </div>
+              <div className="Cancel">
               <button onClick={handleClearTicket}>
                 Peruuta
               </button>
-            </div>
+              </div>
+
           </div>
         )}
         {error.length > 0 && <p>{error}</p>}
