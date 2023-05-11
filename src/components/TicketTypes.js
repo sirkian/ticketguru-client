@@ -79,7 +79,8 @@ function TicketTypes({ token }) {
 
   return (
     <div className="resourcesInnerContainer">
-      <h2 onClick={() => setIsVisible(!isVisible)}>Lipputyyppi</h2>
+      <h4 onClick={() => setIsVisible(!isVisible)}>Lipputyypit</h4>
+      < br />
       {isVisible && (
         <div className="addTicketType">
           <form className="addTicketTypeForm" onSubmit={addTicketType}>
