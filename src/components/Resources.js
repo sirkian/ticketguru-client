@@ -1,5 +1,4 @@
 import React from "react";
-import TicketTypes from "./TicketTypes";
 import AddEvent from "./AddEvent";
 import Venues from "./Venues";
 import EventTicketTypes from "./EventTicketTypes";
@@ -18,7 +17,6 @@ export function Resources() {
       <div className="resourcesContainer">
         <AddEvent token={currentUser.token} />
         <Venues token={currentUser.token} />
-        <TicketTypes token={currentUser.token} />
         <EventTicketTypes token={currentUser.token} />
       </div>
     );
