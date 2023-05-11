@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { URL } from "../utils/constants";
+import "../styles/editETT.css"
 
 function EditETT() {
-
     const navigate = useNavigate();
     const location = useLocation();
-    //const eventTicketTypes = location.state.evtt;
     const token = location.state.token;
-    console.log(location.state);
     const [eventt, setEventt] = useState(location.state.evtt);
-    
+
     const handleChange = (e) => {
-        console.log("hinta muuttuu");
-        setEventt({ ...eventt, [e.target.name]: e.target.value})
-    }
+        setEventt({ ...eventt, [e.target.name]: e.target.value })
+    };
+
     const handleUpdate = async () => {
-        console.log("PUT");
+
         const reqOptions = {
             method: "PUT",
             headers: {
@@ -25,7 +23,7 @@ function EditETT() {
             },
             body: JSON.stringify({
                 event: {
-                    eventId : eventt.event.eventId
+                    eventId: eventt.event.eventId
                 },
                 price: eventt.price,
                 ticketType: {
@@ -34,38 +32,40 @@ function EditETT() {
             }),
         };
         try {
-            console.log(reqOptions.body);
-            const response = await fetch(
-                `${URL}/eventtickettypes/${eventt.eventTypeId}`,
-                reqOptions
-            );
+            const response = await fetch(`${URL}/eventtickettypes/${eventt.eventTypeId}`, reqOptions);
             if (response.status === 200) navigate(-1);
-                //console.log(response);
         } catch (error) {
             console.log(error.message);
         }
-    }
+    };
 
-    return(
-    
-        <div>
-            <p>Lipputyyppien muutokset</p>
-            <div>{eventt.event.eventName}</div>
-            <div>{eventt.ticketType.typeName}</div>
-            <div>
-                <input
-                    type="number"
-                    step="0.01"
-                    name="price"
-                    value={eventt.price}
-                    onChange={(e) => handleChange(e)}
-                >
-                </input>
-            <button onClick={handleUpdate}>Tallenna muutokset</button>
+    return (
+        <div className="editETTContainer">
+            <div className="editETTForm">
+                <h1>Muokkaa lipputyyppiä</h1>
+                <h3>{eventt.event.eventName}</h3>
+                <div className="editETTInputs">
+                    <label>Tapahtuman lipputyypin nimi</label>
+                    <input
+                        disabled
+                        placeholder={eventt.ticketType.typeName}
+                        type="text"
+                    />
+                    <label>Tapahtuman lipputyypin hinta</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="price"
+                        value={eventt.price}
+                        onChange={(e) => handleChange(e)}
+                    />
+                </div>
+                <div className="editETTFormBtns">
+                    <button onClick={() => navigate(-1)}>Palaa takaisin</button>
+                    <button onClick={handleUpdate}>Tallenna muutokset</button>
+                </div>
             </div>
         </div>
-        
     );
-
 }
 export default EditETT;

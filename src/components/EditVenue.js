@@ -28,8 +28,8 @@ function EditVenue() {
     const handleUpdate = async () => {
 
         // Validoidaan kentät
-        const {valid, message} = validateVenue(venue);
-        if(!valid) {
+        const { valid, message } = validateVenue(venue);
+        if (!valid) {
             return setError(message);
         }
 

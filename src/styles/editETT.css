@@ -1,0 +1,56 @@
+.editETTContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editETTForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.editETTForm h1 {
+    font-weight: lighter;
+}
+
+.editETTForm h3 {
+    font-weight: lighter;
+    text-align: center;
+}
+
+.editETTInputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1em
+}
+
+.editETTInputs input {
+    padding: 0.6em;
+    margin-bottom: 0.5em; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 3px;
+}
+
+.editETTInputs label {
+    text-align: center;
+    margin: 0.3em 0;
+}
+
+.editETTFormBtns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.editETTFormBtns button {
+    padding: 0.6em;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    margin-right: 0.5em;
+}
+
+.editETTFormBtns button:nth-child(2) {
+    background-color: rgba(72, 189, 120, 0.6);
+}
