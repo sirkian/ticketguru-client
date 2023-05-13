@@ -5,7 +5,6 @@ import { formatTime } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import "../styles/addEvent.css";
 import { validateEvent } from "../utils/Validate";
-import TicketTypes from "./TicketTypes";
 
 function AddEvent({ token }) {
   const [events, setEvents] = useState([]);
@@ -226,8 +225,6 @@ function AddEvent({ token }) {
               );
             })}
           </div>
-          < br />
-            <TicketTypes token={token} />
         </div>
       )}
     </div>
