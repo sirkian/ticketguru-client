@@ -4,6 +4,33 @@
     
 }
 
+.Form [type="text"] {
+   
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    }
+
+.Hae {
+    background-color: rgba(72, 189, 120, 0.6);
+    border: none;
+    padding: 0.6em;
+    border-radius: 3px;
+}
+
+.Hae:hover {
+    background-color: rgba(60, 157, 102, 0.6);
+
+}
+
+.Hae:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
+}
+
+
+
 .events {
     max-width: 40em;
     margin: 5em 0 3em 0;
@@ -81,3 +108,6 @@
         transform: scale(0.98);
         box-shadow: 3px 2px 22px 1px rgba(104, 104, 104, 0.24);
     }
+
+
+

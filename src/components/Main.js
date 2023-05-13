@@ -250,7 +250,7 @@ export function Main(props) {
       <div className="innerContainer">
         <h3>TicketGuru Ticket sales</h3>
 
-        <form>
+        <form className="Form">
           <label htmlFor="event">
             <b>Hae tapahtuma nimellä: </b>
           </label>
@@ -263,13 +263,13 @@ export function Main(props) {
           />
           <input
             type="button"
+            className="Hae"
             value="Hae"
             id="search-btn"
             onClick={() => fetchEventsByName(eventName)}
           />
         </form>
-
-        <form>
+        <form className="Form">
           <label htmlFor="venue">
             <b>Hae tapahtumapaikan tapahtumat: </b>
           </label>
@@ -282,6 +282,7 @@ export function Main(props) {
           />
           <input
             type="button"
+            className="Hae"
             value="Hae"
             id="search-btn"
             onClick={() => fetchVenuesEventsByName(venueName)}
