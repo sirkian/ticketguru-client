@@ -248,7 +248,7 @@ export function Main(props) {
   return (
     <div className="eventContainer">
       <div className="innerContainer">
-        <h3>TicketGuru Ticket sales</h3>
+        <h1>TicketGuru</h1>
 
         <form className="Form">
           <label htmlFor="event">
