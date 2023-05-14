@@ -66,7 +66,7 @@ export function Main(props) {
 
       if (response.status === 404) {
         setError("Tapahtumia ei löydy!");
-        setEvents(null);
+        setEvents([]);
       }
 
       setEvents(json);
@@ -98,8 +98,8 @@ export function Main(props) {
       console.log("json:", json);
 
       if (response.status === 404) {
-        setError("Tapahtumapaikkoja ei löydy!");
-        setEvents(null);
+        // setError("Tapahtumapaikkoja ei löydy!");
+        setEvents([]);
       } else {
         const venueId = await json[0].venueId;
 
@@ -115,7 +115,7 @@ export function Main(props) {
 
         if (response2.status === 404) {
           setError("Tapahtumapaikalla ei löydy tapahtumia!");
-          setEvents(null);
+          setEvents([]);
         } else {
           setEvents(json2);
           setError("");
