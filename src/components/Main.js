@@ -269,6 +269,7 @@ export function Main(props) {
             onClick={() => fetchEventsByName(eventName)}
           />
         </form>
+        < br />
         <form className="Form">
           <label htmlFor="venue">
             <b>Hae tapahtumapaikan tapahtumat: </b>
