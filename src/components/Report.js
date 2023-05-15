@@ -77,7 +77,7 @@ export function Report() {
                             {ev.eventName} {ev.description} {" "}
                         </div>
                         <div className = "button">
-                            <button onClick={() => fetchReport(ev.eventId)}>hae raportti</button>
+                            <button onClick={() => fetchReport(ev.eventId)}>Hae raportti</button>
                         </div>    
                     </div>
                 );
